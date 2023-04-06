@@ -86,7 +86,6 @@ const Booking = () => {
   // Collect dd/mm/yyyy from user submit form
   const [collectday, setCollectDay] = useState(new Date());
 
-
   const [BookingDay, setBookingDay] = useState(new Date());
   const [startBookingDay, setStartBookingDay] = useState(new Date().getDate());
   const [endBookingDay, setEndBookingDay] = useState(new Date().getDate() + 2);
@@ -153,7 +152,7 @@ const Booking = () => {
   };
   // Save data from user
   const saveData = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
 
     // Only log show data in form ======= ( can delete) =======
     const collectData = {
@@ -219,28 +218,44 @@ const Booking = () => {
   };
 
   // Check room booking if have booking can't submit form
-  const mapItem = dataShow.map(async (data) => {
-    const calRoomNumberDay =
-      String(data.roomType) == roomType &&
-      String(data.roomNumber) == roomNumber &&
-      Number(data.day) == getDay;
-    const calTomeFrom =
-      getTimeFrom >= Number(data.timeFrom) && getTimeFrom < Number(data.timeTo);
-    const calTimeTo =
-      getTimeTo > Number(data.timeFrom) && getTimeTo <= Number(data.timeTo);
-    if (calRoomNumberDay) {
-      if (calTomeFrom || calTimeTo) {
-        return false;
+  const mapItem = dataShow.map((data) => {
+      const calRoomNumberDay =
+        String(data.roomType) == roomType &&
+        String(data.roomNumber) == roomNumber &&
+        Number(data.day) == getDay;
+      const calTomeFrom =
+        getTimeFrom >= Number(data.timeFrom) &&
+        getTimeFrom < Number(data.timeTo);
+      console.log(getTimeFrom);
+      const calTimeTo =
+        getTimeTo > Number(data.timeFrom) && getTimeTo <= Number(data.timeTo);
+      if (calRoomNumberDay) {
+        if (calTomeFrom || calTimeTo) {
+          return false;
+        } else {
+          return true;
+        }
       } else {
         return true;
       }
-    } else {
-      return true;
-    }
   });
 
   useEffect(() => {
     // console.log(valueExam);
+    // Use below code to always display code
+    getData();
+    const check =
+      roomName.trim().length > 0 &&
+      roomType !== "default" &&
+      roomNumber !== "default" &&
+      getTimeFrom !== 0 &&
+      getTimeTo !== 0 &&
+      checkTime >= 1 &&
+      checkTime <= 3 &&
+      checkSelectDay === true &&
+      mapItem.indexOf(false) === -1;
+    setCheckValid(check);
+
     if (localStorage.getItem("prevBTN") == "true") {
       setStartBookingDay(
         new Date(localStorage.getItem("startExamDay")).getDate()
@@ -259,20 +274,6 @@ const Booking = () => {
         setMaxTime(new Date("1/1/1111 4:00 PM"));
       }
     }
-
-    // Use below code to always display code
-    getData();
-    const check =
-      roomName.trim().length > 0 &&
-      roomType !== "default" &&
-      roomNumber !== "default" &&
-      getTimeFrom !== 0 &&
-      getTimeTo !== 0 &&
-      checkTime >= 1 &&
-      checkTime <= 3 &&
-      checkSelectDay === true &&
-      mapItem.indexOf(false) === -1;
-    setCheckValid(check);
   }, [
     roomName,
     roomType,
@@ -304,162 +305,155 @@ const Booking = () => {
             <form onSubmit={saveData}>
               <div className="grid md:grid-cols-1 gap-4 w-full py-3">
                 <div className="px-3 py-2 ">
-                  <div className="text-lg uppercase ">
-                    <div className="flex flex-col ">
-                      <label className="uppercase text-sm py-2 dark:text-[white]">
-                        Ex Room Name
-                      </label>
-                      {/* <input
-                        className="border-2 rounded-lg flex py-0 px-2 border-gray-300 dark:bg-[#989898]"
-                        type="text"
-                      /> */}
-                      <input
-                        className="border-2 rounded-lg flex py-0 px-2 border-gray-300 dark:bg-[#989898]"
-                        type="text"
-                        placeholder="Enter Room Name"
-                        onChange={setNameOfRoom}
-                        value={roomName}
+                  <label
+                    for="email"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Reservation Name
+                  </label>
+                  <input
+                    type="text"
+                    id="email"
+                    aria-describedby="helper-text-explanation"
+                    class="bg-gray-50 border mb-3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Your Reservation's Name"
+                    onChange={setNameOfRoom}
+                    value={roomName}
+                  />
+                  <div className="text-lg uppercase dark:text-[white]">
+                    <label
+                      for="countries"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Type of Room
+                    </label>
+                    <select
+                      id="countries"
+                      class="bg-gray-50 border mb-3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      onChange={setTypeOfRoom}
+                      value={roomType}
+                      disabled={!inputRoom}
+                    >
+                      <option value="default" hidden>
+                        Select Room Type
+                      </option>
+
+                      {typeRoom.map((type) => (
+                        <option value={type.value} key={uuid()}>
+                          {type.text}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="text-lg uppercase dark:text-[white]">
+                    <label
+                      for="countries"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Number of Room
+                    </label>
+                    <select
+                      id="countries"
+                      class="bg-gray-50 border mb-3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      onChange={setRoomofNumber}
+                      value={roomNumber}
+                      disabled={!selectRoom}
+                    >
+                      <option value="default" hidden>
+                        Select Room Number
+                      </option>
+
+                      {numberRoom.map((number) => (
+                        <option value={number.value} key={uuid()}>
+                          {number.text}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {/*====================== DATE ========================== */}
+                  <div className="text-lg uppercase dark:text-white">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      Date
+                    </label>
+
+                    <div className="max-w-lg ">
+                      <DatePicker
+                        className="relative bg-gray-50 border mb-3 border-gray-300  rounded-lg  bg-transparent  px-4 py-[0.32rem] text-sm leading-[2.1] outline-none  focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 dark:text-white dark:placeholder-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholderText="Select Date"
+                        selected={day}
+                        onChange={checkDay}
+                        minDate={BookingDay}
+                        maxDate={addDays(BookingDay, period)}
+                        filterDate={weekend}
+                        disabled={!canSelectDateTime}
+                        datepicker
                       />
                     </div>
                   </div>
-                  <div className="text-lg uppercase dark:text-[white]">
-                    <div className="flex flex-col ">
-                      <label className="uppercase text-sm py-2">
-                        Ex Type of room here
+                  {/* ====================== DATE COPPY========================== */}
+
+                  <div date-rangepicker class="flex items-center justify-start">
+                    <div class="relative ">
+                      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Time
                       </label>
-                      {/* <input
-                        className="border-2 rounded-lg flex py-0 px-2 border-gray-300 dark:bg-[#989898]"
-                        type="text"
-                      /> */}
-                      <select
-                        // className="form-select-sm"
-                        className="border-2 rounded-lg flex py-0 px-2 border-gray-300 dark:bg-[#989898]"
-                        onChange={setTypeOfRoom}
-                        value={roomType}
-                        disabled={!inputRoom}
-                      >
-                        <option value="default" hidden>
-                          Select Room Type
-                        </option>
-                        {/* loop typeRoom to get value into option tag */}
-                        {/* If have () it call function not have return */}
-                        {typeRoom.map((type) => (
-                          <option value={type.value} key={uuid()}>
-                            {type.text}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="text-lg uppercase dark:text-[white]">
-                    <div className="flex flex-col ">
-                      <label className="uppercase text-sm py-2">
-                        Ex number of room here
-                      </label>
-                      {/* <input
-                        className="border-2 rounded-lg flex py-0 px-2 border-gray-300 dark:bg-[#989898]"
-                        type="text"
-                      /> */}
-                      <select
-                        // className="form-select-sm"
-                        className="border-2 rounded-lg flex py-0 px-2 border-gray-300 dark:bg-[#989898]"
-                        onChange={setRoomofNumber}
-                        value={roomNumber}
-                        disabled={!selectRoom}
-                      >
-                        <option value="default" hidden>
-                          Select Room Number
-                        </option>
-                        {/* loop numberRoom to get value into option tag */}
-                        {/* If have () it call function not have return */}
-                        {numberRoom.map((number) => (
-                          <option value={number.value} key={uuid()}>
-                            {number.text}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="text-lg uppercase dark:text-[white]">
-                    <div className="flex flex-col ">
-                      <label className="uppercase text-sm py-2">
-                        date
-                      </label>
-                      {/* <input
-                        className="border-2 rounded-lg flex py-0 px-2 border-gray-300 dark:bg-[#989898]"
-                        type="text"
-                      /> */}
-            <DatePicker
-              placeholderText="Select Date"
-              selected={day}
-              onChange={checkDay}
-              minDate={BookingDay}
-              maxDate={addDays(BookingDay, period)}
-              filterDate={weekend}
-              disabled={!canSelectDateTime}
-              // minDate={new Date()}
-              // maxDate={addDays(new Date(), 2)}
-            />
-                    </div>
-                  </div>
-                  <div className="text-lg uppercase dark:text-[white]">
-                    <div className="flex flex-col ">
-                      <label className="uppercase text-sm py-2">
-                        EX Time here
-                      </label>
-                      <div className="grid md:grid-cols-2 ">
-                        <DatePicker
-                          placeholderText="Select time"
-                          selected={timeFrom}
-                          onChange={changeTimeFrom}
-                          showTimeSelect
-                          showTimeSelectOnly
-                          minTime={minTime}
-                          maxTime={maxTime}
-                          timeIntervals={60}
-                          timeCaption="Time"
-                          dateFormat="h:mm aa"
-                          disabled={!canSelectDateTime}
-                        />
-                        {/* <input
-                          className="border-2 rounded-lg flex  border-gray-300 dark:bg-[#989898]"
-                          type="text"
-                        /> */}
-                        {/* <input
-                          className="border-2 rounded-lg flex  border-gray-300 dark:bg-[#989898] "
-                          type="text"
-                        /> */}
-                        <DatePicker
-                          placeholderText="Select time"
-                          selected={timeTo}
-                          onChange={changeTimeTo}
-                          showTimeSelect
-                          showTimeSelectOnly
-                          minTime={minTime}
-                          maxTime={maxTime}
-                          timeIntervals={60}
-                          timeCaption="Time"
-                          dateFormat="h:mm aa"
-                          disabled={!canSelectDateTime}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  {/* <div className="text-lg uppercase ">
-                    <div className="flex flex-col ">
-                      <label className="uppercase text-sm py-2">
-                        date here
-                      </label>
-                      <input
-                        className="border-2 rounded-lg flex py-0 px-2 border-gray-300 "
-                        type="text"
+
+                      <DatePicker
+                        name="start"
+                        // class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="flex col-12 relative bg-gray-50 border mb-3 border-gray-300  pl-10 rounded-lg  bg-transparent px-3 w-full  py-[0.32rem] text-sm leading-[2.1] outline-none  focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 dark:text-white dark:placeholder-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholderText="Select Time Start"
+                        selected={timeFrom}
+                        onChange={changeTimeFrom}
+                        showTimeSelect
+                        showTimeSelectOnly
+                        minTime={minTime}
+                        maxTime={maxTime}
+                        timeIntervals={60}
+                        timeCaption="Time"
+                        dateFormat="h:mm aa"
+                        disabled={!canSelectDateTime}
                       />
                     </div>
-                  </div> */}
+                    <div>
+                      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        {" "}
+                      </label>
+                      <span class="mx-4 text-gray-500 col-2 items-center justify-center">
+                        To
+                      </span>
+                    </div>
+                    <div class="relative ">
+                      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Time
+                      </label>
+
+                      <DatePicker
+                        name="end"
+                        type="text"
+                        className="flex col-12 relative bg-gray-50 border mb-3 border-gray-300  pl-10 rounded-lg  bg-transparent px-3 w-full  py-[0.32rem] text-sm leading-[2.1] outline-none  focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 dark:text-white dark:placeholder-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholderText="Select Time End"
+                        selected={timeTo}
+                        onChange={changeTimeTo}
+                        showTimeSelect
+                        showTimeSelectOnly
+                        minTime={minTime}
+                        maxTime={maxTime}
+                        timeIntervals={60}
+                        timeCaption="Time"
+                        dateFormat="h:mm aa"
+                        disabled={!canSelectDateTime}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="px-[30%] py-2 text-center">
-                  <button onClick={addData} disabled={!checkValid} className="w-full p-4 py-4 px-7 rounded-full uppercase cursor-pointer hover:scale-[95%] ease-in duration-100 text-sm tracking-widest font-semibold text-white mt-4 shadow-gray-400 dark:shadow-[black]">
+                  <button
+                    onClick={addData}
+                    disabled={!checkValid}
+                    className="w-full p-4 py-4 px-7 rounded-full uppercase cursor-pointer hover:scale-[95%] ease-in duration-100 text-sm tracking-widest font-semibold text-white mt-4 shadow-gray-400 dark:shadow-[black]"
+                  >
                     Submit
                   </button>
                 </div>
@@ -488,5 +482,4 @@ const Booking = () => {
     </div>
   );
 };
-0;
 export default Booking;

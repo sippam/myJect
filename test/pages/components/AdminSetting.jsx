@@ -6,12 +6,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import Axios from "axios";
 import Switch from "@mui/material/Switch";
 import { useRouter } from "next/router";
-import Table from "./table";
-import AdminSetting from "./AdminSetting";
-import Navbar from "./Navbar";
 
-const admin = () => {
-  const router = useRouter();
+const AdminSetting = () => {
+
+const router = useRouter();
   // const email = localStorage.getItem("email");
   // console.log(email);
   // const router = useRouter();
@@ -181,10 +179,7 @@ const admin = () => {
 
   return (
     <>
-      <Navbar />
-      <AdminSetting />
-      <Table />
-      {/* <div>
+    <div className="pt-[150px]">
         <DatePicker
           placeholderText="Exam Start"
           selected={startDate}
@@ -207,159 +202,10 @@ const admin = () => {
           <Switch {...label} onClick={switchOnOff} checked={true} />
         ) : (
           <Switch {...label} onClick={switchOnOff} checked={false} />
-        )} */}
-
-
-
-
-
-
-        {/* <label className="switch">
-        <input type="checkbox" onClick={switchOnOff} />
-        <span className="slider"></span>
-      </label> */}
-        {/* <center>
-        <table>
-          <tbody>
-            <tr>
-              {time.map((val) => {
-                return (
-                  <th className="table-style" key={uuid()}>
-                    {val.text}
-                  </th>
-                );
-              })}
-            </tr> */}
-        {/* {dataShow.map((val) => {
-            { return (
-              time.map((time) => {
-                if (val.timeFrom == time.id) {
-                  return (
-                    <tr key={uuid()}>
-                      <th className="ha" colSpan={val.timeTo - val.timeFrom + 1}>
-                        test
-                      </th>
-                    </tr>
-                  );
-                }
-              })
-            )};
-          })} */}
-        {/* <tr key={uuid()}>
-              {dataShow.map((val) => {
-                if (
-                  val.roomType == "Conference" &&
-                  val.roomNumber == "2" &&
-                  val.timeFrom == 10
-                ) {
-                  return (
-                    <>
-                      <th
-                        colSpan={val.timeTo - val.timeFrom + 1}
-                        className="table-style"
-                      >
-                        <div className="header">
-                          {val.roomName}
-                          <span className="description">
-                            Email : {val.email}
-                            <br />
-                            Name : {val.name}
-                            <br />
-                            Day : {val.day}
-                            <br />
-                            Period : {val.timeFrom}:00 - {val.timeTo}:00
-                            <br />
-                            <button
-                              className="delete-btn"
-                              onClick={() => {
-                                deleteBooking(val.id);
-                              }}
-                            >
-                              Delete
-                            </button>
-                          </span>
-                        </div>
-                      </th>
-                    </>
-                  );
-                } else {
-                  let count = 0;
-                  const no = `<th></th><th></th>`;
-                  while (true) {
-                    if (
-                      val.roomType == "Conference" &&
-                      val.roomNumber == "2" &&
-                      val.timeFrom == 10 + count
-                    ) {
-                      return (
-                        <>
-                          {/* <div dangerouslySetInnerHTML={{__html: no}}></div> */}
-        {/* <th
-                            colSpan={val.timeTo - val.timeFrom + 1}
-                            className="table-style"
-                          >
-                            <div className="header">
-                              {val.roomName}
-                              <span className="description">
-                                Email : {val.email}
-                                <br />
-                                Name : {val.name}
-                                <br />
-                                Day : {val.day}
-                                <br />
-                                Period : {val.timeFrom}:00 - {val.timeTo}:00
-                                <br />
-                                <button
-                                  className="delete-btn"
-                                  onClick={() => {
-                                    deleteBooking(val.id);
-                                  }}
-                                >
-                                  Delete
-                                </button>
-                              </span>
-                            </div>
-                          </th>
-                        </>
-                      );
-                    }
-                    count += 1;
-                  }
-                }
-              })}
-            </tr>
-          </tbody>
-        </table> */}
-        {/* </center>
-      <div className="container">
-        {dataShow.length > 0 &&
-          dataShow.map((val) => {
-            return (
-              <div key={uuid()} className="card">
-                <div className="card-body">
-                  <h4>Room name : {val.roomName}</h4>
-                  <p>Room type : {val.roomType}</p>
-                  <p>Room number : {val.roomNumber}</p>
-                  <p>Time from : {val.timeFrom}</p>
-                  <p>Time to : {val.timeTo}</p>
-                  <p>Day : {val.day}</p>
-                  <p>Email : {val.email}</p>
-                  <button
-                    className="delete-btn"
-                    onClick={() => {
-                      deleteBooking(val.id);
-                    }}
-                  >
-                    delete
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-      </div> */}
-      {/* </div> */}
+        )}
+      </div>
     </>
-  );
-};
+  )
+}
 
-export default admin;
+export default AdminSetting;

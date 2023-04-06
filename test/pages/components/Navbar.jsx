@@ -30,7 +30,7 @@ const Navbar = () => {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
   const [image, setImage] = useState("");
-
+  // console.log(image);
   const logout = () => {
     localStorage.clear();
     window.location.reload();
@@ -107,6 +107,13 @@ const Navbar = () => {
   }, []);
   // ===============================================================
 
+  //----------------------------------------------------------------
+  useEffect(() => {
+    adminList.map((data) => {
+      console.log(data);
+    });
+  });
+  //----------------------------------------------------------------
   {
     /* =======> dark mode set-up  <======== */
   }
@@ -176,7 +183,7 @@ const Navbar = () => {
             <Link href="/">
               <Image
                 className="hover:scale-105 ease-in duration-200"
-                src="assets/LogoKKU.svg"
+                src="../../assets/LogoKKU.svg"
                 width={50}
                 height={120}
                 style={{ inset: "10px" }}
