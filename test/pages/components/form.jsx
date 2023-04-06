@@ -487,19 +487,11 @@ const form = () => {
               return (
                 <div key={uuid()} className="card">
                   <div className="card-body">
-                    <h4>Room name : {val.roomName}</h4>
-                    <p>Room type : {val.roomType}</p>
-                    <p>Room number : {val.roomNumber}</p>
-                    <p>Time from : {val.timeFrom}</p>
-                    <p>Time to : {val.timeTo}</p>
-                    <p>Day : {val.day}</p>
-                    <button className="delete-btn"
-                      onClick={() => {
-                        deleteBooking(val.id);
-                      }}
-                    >
-                      delete
-                    </button>
+                    <h6>Room name : {val.roomName}</h6>
+                    <h6>Type : {val.roomType}</h6>
+                    <h6>Number : {val.roomNumber}</h6>
+                    <h6>Period : {val.timeFrom}:00 - {val.timeTo}:00</h6>
+                    {/* <p>Time to : {val.timeTo}</p> */}
                   </div>
                 </div>
               );

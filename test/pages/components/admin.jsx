@@ -6,6 +6,7 @@ import uuid from "react-uuid";
 import Axios from "axios";
 import Switch from "@mui/material/Switch";
 import { useRouter } from "next/router";
+import Table from "./table";
 
 const admin = () => {
   const router = useRouter();
@@ -178,14 +179,13 @@ const admin = () => {
 
   return (
     <div>
-      <Link
+      {/* <Link
         href={{
-          pathname: "../components/login",
-          query: { dataExam: JSON.stringify(dataExam) },
+          pathname: "../components/Login2",
         }}
-        legacyBehavior
-      >
-        <a>Home</a>
+      > */}
+      <Link href="/#book">
+        Home
       </Link>
       {/* <DatePicker
         selected={startExam}
@@ -223,7 +223,7 @@ const admin = () => {
         <input type="checkbox" onClick={switchOnOff} />
         <span className="slider"></span>
       </label> */}
-      <center>
+      {/* <center>
         <table>
           <tbody>
             <tr>
@@ -234,8 +234,8 @@ const admin = () => {
                   </th>
                 );
               })}
-            </tr>
-            {/* {dataShow.map((val) => {
+            </tr> */}
+      {/* {dataShow.map((val) => {
             { return (
               time.map((time) => {
                 if (val.timeFrom == time.id) {
@@ -250,12 +250,15 @@ const admin = () => {
               })
             )};
           })} */}
-            <tr key={uuid()}>
+      {/* <tr key={uuid()}>
               {dataShow.map((val) => {
-                if (val.roomType == "Conference" && val.roomNumber == "2") {
+                if (
+                  val.roomType == "Conference" &&
+                  val.roomNumber == "2" &&
+                  val.timeFrom == 10
+                ) {
                   return (
                     <>
-                    <th></th>
                       <th
                         colSpan={val.timeTo - val.timeFrom + 1}
                         className="table-style"
@@ -284,12 +287,55 @@ const admin = () => {
                       </th>
                     </>
                   );
+                } else {
+                  let count = 0;
+                  const no = `<th></th><th></th>`;
+                  while (true) {
+                    if (
+                      val.roomType == "Conference" &&
+                      val.roomNumber == "2" &&
+                      val.timeFrom == 10 + count
+                    ) {
+                      return (
+                        <>
+                          {/* <div dangerouslySetInnerHTML={{__html: no}}></div> */}
+      {/* <th
+                            colSpan={val.timeTo - val.timeFrom + 1}
+                            className="table-style"
+                          >
+                            <div className="header">
+                              {val.roomName}
+                              <span className="description">
+                                Email : {val.email}
+                                <br />
+                                Name : {val.name}
+                                <br />
+                                Day : {val.day}
+                                <br />
+                                Period : {val.timeFrom}:00 - {val.timeTo}:00
+                                <br />
+                                <button
+                                  className="delete-btn"
+                                  onClick={() => {
+                                    deleteBooking(val.id);
+                                  }}
+                                >
+                                  Delete
+                                </button>
+                              </span>
+                            </div>
+                          </th>
+                        </>
+                      );
+                    }
+                    count += 1;
+                  }
                 }
               })}
             </tr>
           </tbody>
-        </table>
-      </center>
+        </table> */}
+      {/* </center>
       <div className="container">
         {dataShow.length > 0 &&
           dataShow.map((val) => {
@@ -315,7 +361,8 @@ const admin = () => {
               </div>
             );
           })}
-      </div>
+      </div> */}
+      <Table />
     </div>
   );
 };

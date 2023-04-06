@@ -15,7 +15,7 @@ const db = mysql.createConnection({
 // myprojectlibrary
 
 app.get("/customer", (req, res) => {
-  db.query("SELECT * FROM customer", (err, result) => {
+  db.query("SELECT * FROM customer ORDER BY date,timeFrom", (err, result) => {
     if (err) {
       console.log(err);
     } else {
