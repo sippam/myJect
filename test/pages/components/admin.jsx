@@ -12,15 +12,10 @@ import Navbar from "./Navbar";
 
 const admin = () => {
   const router = useRouter();
-  // const email = localStorage.getItem("email");
-  // console.log(email);
-  // const router = useRouter();
-  // const dataShow = router.query.dataShow ? JSON.parse(router.query.dataShow) : {};
+
   const label = { inputProps: { "aria-label": "Switch demo" } };
 
   const [dataShow, setDataShow] = useState([]);
-
-  // const [email, getEmail] = useState("");
 
   const [startExam, setStartExam] = useState(new Date());
   const [endExam, setEndExam] = useState(new Date());
@@ -30,14 +25,6 @@ const admin = () => {
     new Date().getDate()
   );
 
-  // const onChange = (dates) => {
-  //   const [start, end] = dates;
-  //   console.log(dates);
-  //   setStartExam(start);
-  //   setGetStartExam(start.getDate());
-  //   setEndExam(end);
-  //   setGetEndExam(end.getDate())
-  // };
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const today = new Date();
@@ -51,19 +38,8 @@ const admin = () => {
     }
   }
 
-  // const [dataShow, setDataShow] = useState([]);
-  // console.log(data);
-
   useEffect(() => {
     idk();
-    // setDataShow(dataShow);
-    // if (typeof window !== 'undefined') {
-    // access localStorage here
-    // getEmail(localStorage.getItem("email"));
-
-    // }
-    // setDataShow(data);
-    // }, [endDate]);
   }, [startDate, endDate]);
   const [checkSwitch, setCheckSwitch] = useState();
 
@@ -107,61 +83,14 @@ const admin = () => {
         enableOrdisable: checkSwitch,
       });
       router.reload(window.location.pathname);
-      // dataExam = {
-      //   startDay: startExam,
-      //   endDay: endExam,
-      //   enableOrdisable: checkSwitch,
-      // };
-      // props.ExamDay(dataExam);
-      // router.push({
-      //   pathname: "../components/login",
-      //   query: { dataExam: JSON.stringify(dataExam) },
-      // });
     } else {
       setDataExam({
         startDay: startExam,
         endDay: endExam,
         enableOrdisable: checkSwitch,
       });
-      // dataExam = {
-      //   startDay: startExam,
-      //   endDay: endExam,
-      //   enableOrdisable: checkSwitch,
-      // };
-      // props.ExamDay(dataExam);
-      // router.push({
-      //   pathname: "../components/login",
-      //   query: { dataExam: JSON.stringify(dataExam) },
-      // });
     }
   };
-
-  // useEffect(() => {
-  //   const data = window.localStorage.getItem("examData");
-  //   if (data != "undefined") {
-  //     setPrevSwitch(JSON.parse(data));
-  //   }
-  // }, [checkSwitch]);
-
-  // const enableExam = (event) => {
-  //   event.preventDefault();
-  //   const dataExam = {
-  //     startDay: startExam,
-  //     endDay: endExam,
-  //     enableOrdisable: checkSwitch
-  //   };
-  //   props.ExamDay(dataExam);
-  // };
-
-  const time = [
-    { id: "10", text: "10:00" },
-    { id: "11", text: "11:00" },
-    { id: "12", text: "12:00" },
-    { id: "13", text: "13:00" },
-    { id: "14", text: "14:00" },
-    { id: "15", text: "15:00" },
-    { id: "16", text: "16:00" },
-  ];
 
   const getData = () => {
     Axios.get("http://localhost:3001/customer").then((response) => {
@@ -169,196 +98,13 @@ const admin = () => {
     });
   };
 
-  const deleteBooking = (id) => {
-    Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
-      setDataShow(
-        dataShow.filter((val) => {
-          return val.id != id;
-        })
-      );
-    });
-  };
-
   return (
-    <>
+    <div className="w-full lg:h-screen dark:bg-[#282a36]">
       <Navbar />
-      <AdminSetting />
-      <Table />
-      {/* <div>
-        <DatePicker
-          placeholderText="Exam Start"
-          selected={startDate}
-          onChange={(date) => setStartDate(date)}
-          selectsStart
-          startDate={startDate}
-          endDate={endDate}
-          minDate={today}
-        />
-        <DatePicker
-          placeholderText="Exam End"
-          selected={endDate}
-          onChange={(date) => setEndDate(date)}
-          selectsEnd
-          startDate={startDate}
-          endDate={endDate}
-          minDate={today}
-        />
-        {checkSwitch ? (
-          <Switch {...label} onClick={switchOnOff} checked={true} />
-        ) : (
-          <Switch {...label} onClick={switchOnOff} checked={false} />
-        )} */}
-
-
-
-
-
-
-        {/* <label className="switch">
-        <input type="checkbox" onClick={switchOnOff} />
-        <span className="slider"></span>
-      </label> */}
-        {/* <center>
-        <table>
-          <tbody>
-            <tr>
-              {time.map((val) => {
-                return (
-                  <th className="table-style" key={uuid()}>
-                    {val.text}
-                  </th>
-                );
-              })}
-            </tr> */}
-        {/* {dataShow.map((val) => {
-            { return (
-              time.map((time) => {
-                if (val.timeFrom == time.id) {
-                  return (
-                    <tr key={uuid()}>
-                      <th className="ha" colSpan={val.timeTo - val.timeFrom + 1}>
-                        test
-                      </th>
-                    </tr>
-                  );
-                }
-              })
-            )};
-          })} */}
-        {/* <tr key={uuid()}>
-              {dataShow.map((val) => {
-                if (
-                  val.roomType == "Conference" &&
-                  val.roomNumber == "2" &&
-                  val.timeFrom == 10
-                ) {
-                  return (
-                    <>
-                      <th
-                        colSpan={val.timeTo - val.timeFrom + 1}
-                        className="table-style"
-                      >
-                        <div className="header">
-                          {val.roomName}
-                          <span className="description">
-                            Email : {val.email}
-                            <br />
-                            Name : {val.name}
-                            <br />
-                            Day : {val.day}
-                            <br />
-                            Period : {val.timeFrom}:00 - {val.timeTo}:00
-                            <br />
-                            <button
-                              className="delete-btn"
-                              onClick={() => {
-                                deleteBooking(val.id);
-                              }}
-                            >
-                              Delete
-                            </button>
-                          </span>
-                        </div>
-                      </th>
-                    </>
-                  );
-                } else {
-                  let count = 0;
-                  const no = `<th></th><th></th>`;
-                  while (true) {
-                    if (
-                      val.roomType == "Conference" &&
-                      val.roomNumber == "2" &&
-                      val.timeFrom == 10 + count
-                    ) {
-                      return (
-                        <>
-                          {/* <div dangerouslySetInnerHTML={{__html: no}}></div> */}
-        {/* <th
-                            colSpan={val.timeTo - val.timeFrom + 1}
-                            className="table-style"
-                          >
-                            <div className="header">
-                              {val.roomName}
-                              <span className="description">
-                                Email : {val.email}
-                                <br />
-                                Name : {val.name}
-                                <br />
-                                Day : {val.day}
-                                <br />
-                                Period : {val.timeFrom}:00 - {val.timeTo}:00
-                                <br />
-                                <button
-                                  className="delete-btn"
-                                  onClick={() => {
-                                    deleteBooking(val.id);
-                                  }}
-                                >
-                                  Delete
-                                </button>
-                              </span>
-                            </div>
-                          </th>
-                        </>
-                      );
-                    }
-                    count += 1;
-                  }
-                }
-              })}
-            </tr>
-          </tbody>
-        </table> */}
-        {/* </center>
-      <div className="container">
-        {dataShow.length > 0 &&
-          dataShow.map((val) => {
-            return (
-              <div key={uuid()} className="card">
-                <div className="card-body">
-                  <h4>Room name : {val.roomName}</h4>
-                  <p>Room type : {val.roomType}</p>
-                  <p>Room number : {val.roomNumber}</p>
-                  <p>Time from : {val.timeFrom}</p>
-                  <p>Time to : {val.timeTo}</p>
-                  <p>Day : {val.day}</p>
-                  <p>Email : {val.email}</p>
-                  <button
-                    className="delete-btn"
-                    onClick={() => {
-                      deleteBooking(val.id);
-                    }}
-                  >
-                    delete
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-      </div> */}
-      {/* </div> */}
-    </>
+      <div id="book" className="max-w-[90%] m-auto px-2 py-40 w-full">
+        <Table />
+      </div>
+    </div>
   );
 };
 

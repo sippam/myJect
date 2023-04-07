@@ -276,26 +276,6 @@ const form = () => {
     }
   });
 
-  // Check user fill all value form
-  // useEffect(() => {
-  //   // console.log(valueExam);
-  //   if (valueExam.enableOrdisable) {
-  //     setStartBookingDay(valueExam.startDay);
-  //     setEndBookingDay(valueExam.endDay);
-  //     // setBookingDay(new Date(valueExam.startDay));
-  //   } else {
-  //     if (today.getDate() !== BookingDay.getDate()) {
-  //       setStartBookingDay(new Date().getDate());
-  //       setEndBookingDay(new Date().getDate() + 2);
-  //       setBookingDay(new Date());
-  //       setTest(true);
-  //     }
-  //   }
-
-  // useEffect(() => {
-  //   setBookingDay(new Date(localStorage.getItem("startExamDay")));
-  // },[])
-
   useEffect(() => {
     // console.log(valueExam);
     if (localStorage.getItem("prevBTN") == "true") {
@@ -314,7 +294,6 @@ const form = () => {
         setMaxTime(new Date("1/1/1111 4:00 PM"))
       }
     }
-
 
     // Use below code to always display code
     getData();
@@ -404,15 +383,7 @@ const form = () => {
           </div>
           <label>Select date</label>
           <div className="mb-3">
-            {/* <DatePickerComponent
-              // availableDates={{ thisDay, tomorrow, dayAfterTomorrow }}
-              id="datepicker"
-              placeholder="Enter date"
-              renderDayCell={weekend}
-              onChange={checkDay}
-              allowEdit={false}
-              enabled={canSelectDateTime}
-            /> */}
+
             <DatePicker
               placeholderText="Select Date"
               selected={day}
@@ -421,8 +392,7 @@ const form = () => {
               maxDate={addDays(BookingDay, period)}
               filterDate={weekend}
               disabled={!canSelectDateTime}
-              // minDate={new Date()}
-              // maxDate={addDays(new Date(), 2)}
+
             />
           </div>
           <div className="mb-3">
@@ -440,16 +410,7 @@ const form = () => {
               dateFormat="h:mm aa"
               disabled={!canSelectDateTime}
             />
-            {/* <TimePickerComponent
-              id="timepicker"
-              placeholder="Select a Time"
-              onChange={changeTimeFrom}
-              step={60}
-              min={minTime}
-              max={maxTime}
-              allowEdit={false}
-              enabled={canSelectDateTime}
-            /> */}
+
             <label>Time To</label>
             <DatePicker
               placeholderText="Select time"
@@ -464,16 +425,7 @@ const form = () => {
               dateFormat="h:mm aa"
               disabled={!canSelectDateTime}
             />
-            {/* <TimePickerComponent
-              id="timepicker"
-              placeholder="Select a Time"
-              onChange={changeTimeTo}
-              step={60}
-              min={minTime}
-              max={maxTime}
-              allowEdit={false}
-              enabled={canSelectDateTime}
-            /> */}
+
           </div>
           <button type="submit" onClick={addData} disabled={!checkValid}>
             submit

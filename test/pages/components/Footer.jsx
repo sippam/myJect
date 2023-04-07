@@ -12,7 +12,7 @@ const Footer = () => {
             className="flex items-center mb-4 sm:mb-0  hover:scale-105 ease-in duration-200"
           >
             <Image
-              src="assets/LogoKKU.svg"
+              src="../../assets/LogoKKU.svg"
               width={50}
               height={0}
               alt="Flowbite Logo"

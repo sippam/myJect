@@ -8,17 +8,11 @@ import Switch from "@mui/material/Switch";
 import { useRouter } from "next/router";
 
 const AdminSetting = () => {
+  const router = useRouter();
 
-const router = useRouter();
-  // const email = localStorage.getItem("email");
-  // console.log(email);
-  // const router = useRouter();
-  // const dataShow = router.query.dataShow ? JSON.parse(router.query.dataShow) : {};
   const label = { inputProps: { "aria-label": "Switch demo" } };
 
   const [dataShow, setDataShow] = useState([]);
-
-  // const [email, getEmail] = useState("");
 
   const [startExam, setStartExam] = useState(new Date());
   const [endExam, setEndExam] = useState(new Date());
@@ -28,14 +22,6 @@ const router = useRouter();
     new Date().getDate()
   );
 
-  // const onChange = (dates) => {
-  //   const [start, end] = dates;
-  //   console.log(dates);
-  //   setStartExam(start);
-  //   setGetStartExam(start.getDate());
-  //   setEndExam(end);
-  //   setGetEndExam(end.getDate())
-  // };
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const today = new Date();
@@ -49,19 +35,8 @@ const router = useRouter();
     }
   }
 
-  // const [dataShow, setDataShow] = useState([]);
-  // console.log(data);
-
   useEffect(() => {
     idk();
-    // setDataShow(dataShow);
-    // if (typeof window !== 'undefined') {
-    // access localStorage here
-    // getEmail(localStorage.getItem("email"));
-
-    // }
-    // setDataShow(data);
-    // }, [endDate]);
   }, [startDate, endDate]);
   const [checkSwitch, setCheckSwitch] = useState();
 
@@ -90,10 +65,7 @@ const router = useRouter();
       localStorage.removeItem("endExamDay");
     }
   }
-  // const [checkSwitch, setCheckSwitch] = useState(false);
   const [dataExam, setDataExam] = useState({});
-
-  // let dataExam = {};
 
   const switchOnOff = () => {
     localStorage.setItem("prevBTN", JSON.stringify(!checkSwitch));
@@ -104,52 +76,15 @@ const router = useRouter();
         endDay: endExam,
         enableOrdisable: checkSwitch,
       });
-      router.reload(window.location.pathname);
-      // dataExam = {
-      //   startDay: startExam,
-      //   endDay: endExam,
-      //   enableOrdisable: checkSwitch,
-      // };
-      // props.ExamDay(dataExam);
-      // router.push({
-      //   pathname: "../components/login",
-      //   query: { dataExam: JSON.stringify(dataExam) },
-      // });
     } else {
       setDataExam({
         startDay: startExam,
         endDay: endExam,
         enableOrdisable: checkSwitch,
       });
-      // dataExam = {
-      //   startDay: startExam,
-      //   endDay: endExam,
-      //   enableOrdisable: checkSwitch,
-      // };
-      // props.ExamDay(dataExam);
-      // router.push({
-      //   pathname: "../components/login",
-      //   query: { dataExam: JSON.stringify(dataExam) },
-      // });
     }
+    router.reload(window.location.pathname);
   };
-
-  // useEffect(() => {
-  //   const data = window.localStorage.getItem("examData");
-  //   if (data != "undefined") {
-  //     setPrevSwitch(JSON.parse(data));
-  //   }
-  // }, [checkSwitch]);
-
-  // const enableExam = (event) => {
-  //   event.preventDefault();
-  //   const dataExam = {
-  //     startDay: startExam,
-  //     endDay: endExam,
-  //     enableOrdisable: checkSwitch
-  //   };
-  //   props.ExamDay(dataExam);
-  // };
 
   const time = [
     { id: "10", text: "10:00" },
@@ -167,19 +102,9 @@ const router = useRouter();
     });
   };
 
-  const deleteBooking = (id) => {
-    Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
-      setDataShow(
-        dataShow.filter((val) => {
-          return val.id != id;
-        })
-      );
-    });
-  };
-
   return (
     <>
-    <div className="pt-[150px]">
+      <div className="pt-[150px]">
         <DatePicker
           placeholderText="Exam Start"
           selected={startDate}
@@ -205,7 +130,7 @@ const router = useRouter();
         )}
       </div>
     </>
-  )
-}
+  );
+};
 
 export default AdminSetting;

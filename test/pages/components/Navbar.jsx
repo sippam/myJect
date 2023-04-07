@@ -107,13 +107,6 @@ const Navbar = () => {
   }, []);
   // ===============================================================
 
-  //----------------------------------------------------------------
-  useEffect(() => {
-    adminList.map((data) => {
-      console.log(data);
-    });
-  });
-  //----------------------------------------------------------------
   {
     /* =======> dark mode set-up  <======== */
   }
@@ -217,6 +210,12 @@ const Navbar = () => {
               }
             })}
             {/* //////////////////////// */}
+            <Link href="../components/Login2">
+              <li className="ml-12 font-semibold text-md tracking-widest uppercase hover:border-b hover:scale-105 ease-in duration-200 hover:text-[#f9a826] dark:text-[#fcfcfc]">
+                {" "}
+                HOME{" "}
+              </li>
+            </Link>
 
             <ul className="ml-12 font-semibold text-md tracking-widest hover:border-b hover:scale-105 ease-in duration-200">
               <li>
@@ -227,7 +226,7 @@ const Navbar = () => {
                 </Link>
                 <ul className="dropdown p-4">
                   <li>
-                    <a href="#">Booking List</a>
+                    <a href="/#list">Booking List</a>
                   </li>
                 </ul>
               </li>
@@ -251,14 +250,14 @@ const Navbar = () => {
         {/*============ DARKMODE ADDED HERE!! ============= */}
 
         {/*============ M ADD ICON HERE !! ============= */}
-        <ul className="ml-12 font-semibold text-md tracking-widest hover:border-b hover:scale-105 ease-in duration-200">
+        <ul className="ml-1 font-semibold text-md tracking-widest hover:border-b hover:scale-105 ease-in duration-200">
           <li>
             <img
               src={image}
               alt="/"
               width={50}
               height={50}
-              className="dropdown p-1 rounded-full shadow-lg shadow-[#707172] cursor-pointer hidden md:flex  "
+              className="dropdown p-0.5 rounded-full shadow-lg shadow-[#707172] cursor-pointer hidden md:flex  "
               style={{ width: "70px", height: "70px" }}
             />
             <ul className="dropdown p-4">
@@ -270,14 +269,6 @@ const Navbar = () => {
             </ul>
           </li>
         </ul>
-        {/* <img
-          src="assets/LogoKKU.svg"
-          width={800}
-          height={500}
-          className="rounded-full shadow-lg shadow-[#464e5a] cursor-pointer hidden md:flex p-10"
-          style={{ width: "50px", height: "50px" }}
-        ></img> */}
-        {/*============ M ADD ICON HERE !! ============= */}
       </div>
 
       <div
@@ -322,10 +313,11 @@ const Navbar = () => {
                   Book here
                 </li>
               </Link>
-              <Link href="/">
+              <Link href = "/#list">
                 <li
                   onClick={() => setNav(false)}
                   className="text-md py-4 hover:text-[#f9a826] dark:text-[#efefef]"
+                  
                 >
                   Booking list
                 </li>

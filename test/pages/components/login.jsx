@@ -29,8 +29,6 @@ const login = () => {
   const router = useRouter();
   const dataExam = router.query.dataExam ? JSON.parse(router.query.dataExam) : {};
 
-  // const [startDay, setStartDay] = useState(new Date().getDate());
-  // const [endDay, setEndDay] = useState(new Date().getDate() + 2);
   const formatEndDate = new Date();
   formatEndDate.setDate(formatEndDate.getDate() +2);
   const [startDay, setStartDay] = useState(new Date());
@@ -51,34 +49,6 @@ const login = () => {
       setEnableOrdisable(dataExam.enableOrdisable);
     }
   };
-
-  // const valueExamDay = () => {
-  //   if (dataExam.enableOrdisable == true) {
-  //     setStartDay(new Date(dataExam.startDay));
-  //     setEndDay(new Date(dataExam.endDay));
-  //     // setEndDay(dataExam.endDay);
-  //     setEnableOrdisable(dataExam.enableOrdisable);
-  //     setOnce(true);
-  //     // console.log(transStartDay.getDate());
-  //     // console.log(dataExam.startDay);
-  //   } else {
-  //     setStartDay(new Date());
-  //     setEndDay(new Date());
-  //     setEnableOrdisable(dataExam.enableOrdisable);
-  //   }
-  // };
-  // const valueExamDay = (item) => {
-  //   if (item.enableOrdisable == true) {
-  //     setStartDay(item.startDay);
-  //     setEndDay(item.endDay);
-  //     setEnableOrdisable(item.enableOrdisable);
-  //   } else {
-  //     setStartDay(new Date().getDate());
-  //     setEndDay(new Date().getDate() + 2);
-  //     setEnableOrdisable(item.enableOrdisable);
-  //   }
-  // };
-
 
   const [adminList, setAdminList] = useState([]);
 
@@ -115,12 +85,8 @@ const login = () => {
 
   return (
     <div>
-      {/* <DataContext.Provider value={[...dataShow]}> */}
         {user ? (
           <>
-            {/* <Link href="../components/admin" legacyBehavior>
-            <a>Admin</a>
-          </Link> */}
             {adminList.map((item) => {
               if (item.Name == email) {
                 return (

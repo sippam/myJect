@@ -33,7 +33,7 @@ const Main = () => {
             </div>
             <div className="">
               <Image
-                src="assets/libraryanimates.svg"
+                src="../../assets/libraryanimates.svg"
                 width={780}
                 height={200}
                 style={{ inset: "10px" }}

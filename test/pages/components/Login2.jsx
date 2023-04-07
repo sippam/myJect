@@ -16,6 +16,8 @@ import Main from "./Main";
 import Mapping from "./Mapping";
 import Booking from "./Booking";
 import Footer from "./Footer";
+import Request from "./request";
+import UserTable from "./UserTable";
 // ======================================================
 
 const Login2 = () => {
@@ -128,37 +130,15 @@ const Login2 = () => {
     <>
       {user ? (
         <>
-          {/* {adminList.map((item) => {
-            if (item.Name == email) {
-              return (
-                <Link
-                  key={uuid()}
-                  href={{
-                    pathname: "../components/admin",
-                    query: { dataShow: JSON.stringify(dataShow) },
-                  }}
-                  legacyBehavior
-                >
-                  <a>Admin</a>
-                </Link>
-              );
-            }
-          })} */}
           <Navbar />
           <Main />
+          <UserTable />
           <Booking />
+          <Request />
           <Mapping />
           <Footer />
-          {/* <Link href="../components/request" legacyBehavior>
-            <a>Request</a>
-          </Link>
-          <ExamContext.Provider value={{ startDay, endDay, enableOrdisable }}>
-            <Form />
-          </ExamContext.Provider> */}
         </>
       ) : (
-        // ==========================================================================
-        // if not login
         <>
           <div id="home" className="dark:bg-[#282a36]">
             <div className="w-full h-screen text-center">
@@ -182,7 +162,7 @@ const Login2 = () => {
                       communication with your friends.
                     </p>
                     <div>
-                      <div className="hidden md:flex items-center justify-between">
+                      <div className=" flex items-center justify-between">
                         {renderThemeChanger()}
                         <Link href="">
                           <button
@@ -198,7 +178,7 @@ const Login2 = () => {
                   </div>
                   <div className="">
                     <Image
-                      src="assets/animatedfirst.svg"
+                      src="../../assets/animatedfirst.svg"
                       width={780}
                       height={200}
                       style={{ inset: "10px" }}

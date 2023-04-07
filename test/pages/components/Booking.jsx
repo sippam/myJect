@@ -291,7 +291,7 @@ const Booking = () => {
 
   return (
     <div className="w-full lg:h-screen dark:bg-[#282a36]">
-      <div id="book" className="max-w-[90%] m-auto px-2 py-40 w-full">
+      <div id="book" className="max-w-[90%] m-auto px-2 py-60 w-full">
         <p className="text-xl tracking-widest uppercase text-[red]"></p>
         <h2 className=" tracking-wide py-4 text-center dark:text-[white]">
           {" "}
@@ -395,7 +395,7 @@ const Booking = () => {
                   <div date-rangepicker class="flex items-center justify-start">
                     <div class="relative ">
                       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Time
+                        Time Start
                       </label>
 
                       <DatePicker
@@ -419,13 +419,13 @@ const Booking = () => {
                       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         {" "}
                       </label>
-                      <span class="mx-4 text-gray-500 col-2 items-center justify-center">
+                      <span class="mx-4 text-gray-500 col-2 items-center justify-center dark:text-white">
                         To
                       </span>
                     </div>
                     <div class="relative ">
                       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Time
+                        Time End
                       </label>
 
                       <DatePicker
