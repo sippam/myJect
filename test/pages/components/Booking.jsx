@@ -7,13 +7,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import uuid from "react-uuid";
 import Axios from "axios";
-import { ExamContext } from "../context/ExamContext";
 import { addDays } from "date-fns";
 // =============================================================
 
 const Booking = () => {
   // =============================================================
-  const valueExam = useContext(ExamContext);
 
   const deleteBooking = (id) => {
     Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
@@ -26,9 +24,9 @@ const Booking = () => {
   };
 
   // User name email image
-  const name = localStorage.getItem("user");
-  const email = localStorage.getItem("email");
-  const image = localStorage.getItem("image");
+    // const name = localStorage.getItem("user");
+    // const email = localStorage.getItem("email");
+    // const image = localStorage.getItem("image");
 
   // Set type room for select
   const typeRoom = [
@@ -219,26 +217,29 @@ const Booking = () => {
 
   // Check room booking if have booking can't submit form
   const mapItem = dataShow.map((data) => {
-      const calRoomNumberDay =
-        String(data.roomType) == roomType &&
-        String(data.roomNumber) == roomNumber &&
-        Number(data.day) == getDay;
-      const calTomeFrom =
-        getTimeFrom >= Number(data.timeFrom) &&
-        getTimeFrom < Number(data.timeTo);
-      console.log(getTimeFrom);
-      const calTimeTo =
-        getTimeTo > Number(data.timeFrom) && getTimeTo <= Number(data.timeTo);
-      if (calRoomNumberDay) {
-        if (calTomeFrom || calTimeTo) {
-          return false;
-        } else {
-          return true;
-        }
+    const calRoomNumberDay =
+      String(data.roomType) == roomType &&
+      String(data.roomNumber) == roomNumber &&
+      Number(data.day) == getDay;
+    const calTomeFrom =
+      getTimeFrom >= Number(data.timeFrom) && getTimeFrom < Number(data.timeTo);
+    console.log(getTimeFrom);
+    const calTimeTo =
+      getTimeTo > Number(data.timeFrom) && getTimeTo <= Number(data.timeTo);
+    if (calRoomNumberDay) {
+      if (calTomeFrom || calTimeTo) {
+        return false;
       } else {
         return true;
       }
+    } else {
+      return true;
+    }
   });
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     // console.log(valueExam);
@@ -255,6 +256,13 @@ const Booking = () => {
       checkSelectDay === true &&
       mapItem.indexOf(false) === -1;
     setCheckValid(check);
+
+    const getname = localStorage.getItem("user");
+    const getemail = localStorage.getItem("email");
+    const getimage = localStorage.getItem("image");
+    setName(getname);
+    setEmail(getemail);
+    setImage(getimage);
 
     if (localStorage.getItem("prevBTN") == "true") {
       setStartBookingDay(
@@ -284,7 +292,6 @@ const Booking = () => {
     timeTo,
     checkTime,
     checkSelectDay,
-    valueExam,
   ]);
 
   // =============================================================

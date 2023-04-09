@@ -8,8 +8,8 @@ import { BsFillMoonFill, BsSun } from "react-icons/bs";
 
 // ======================================================
 import { React, useState, useEffect } from "react";
-import { auth, provider } from "./FirebaseLogin";
-import { signInWithPopup } from "firebase/auth";
+// import { auth } from "./FirebaseLogin";
+import { signInWithPopup, GoogleAuthProvider, getAuth } from "firebase/auth";
 import Axios from "axios";
 import { useRouter } from "next/router";
 import Main from "./Main";
@@ -29,8 +29,10 @@ const Login2 = () => {
   const [email, setEmail] = useState("");
   const [image, setImage] = useState("");
 
+  const googleAuth = new GoogleAuthProvider();
+  const auth = getAuth();
   const handleClick = () => {
-    signInWithPopup(auth, provider).then((data) => {
+    signInWithPopup(auth, googleAuth).then((data) => {
         setUser(data.user.displayName);
         setEmail(data.user.email);
         setImage(data.user.photoURL);
@@ -55,18 +57,22 @@ const Login2 = () => {
   const [once, setOnce] = useState(true);
   const today = new Date();
 
-  const valueExamDay = () => {
-    if (dataExam.enableOrdisable == true) {
-      setStartDay(new Date(dataExam.startDay));
-      setEndDay(new Date(dataExam.endDay));
-      setEnableOrdisable(dataExam.enableOrdisable);
-      setOnce(true);
-    } else {
-      setStartDay(new Date());
-      setEndDay(formatEndDate);
-      setEnableOrdisable(dataExam.enableOrdisable);
-    }
-  };
+  // const prevBTN = localStorage.getItem("prevBTN");
+  // const startExamDay = localStorage.getItem("startExamDay");
+  // const endExamDay = localStorage.getItem("endExamDay");
+  // console.log(prevBTN);
+  // const valueExamDay = () => {
+  //   if (prevBTN == true) {
+  //     setStartDay(new Date(startExamDay));
+  //     setEndDay(new Date(endExamDay));
+  //     setEnableOrdisable(prevBTN);
+  //     setOnce(true);
+  //   } else {
+  //     setStartDay(new Date());
+  //     setEndDay(formatEndDate);
+  //     setEnableOrdisable(prevBTN);
+  //   }
+  // };
 
   const [adminList, setAdminList] = useState([]);
 
@@ -94,9 +100,9 @@ const Login2 = () => {
     }
     getData();
     admin();
-    valueExamDay();
+    // valueExamDay();
     if (once) {
-      valueExamDay();
+      // valueExamDay();
       setOnce(false);
     }
   }, []);

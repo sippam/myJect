@@ -10,10 +10,9 @@ import { useEffect } from "react";
 import { useTheme } from "next-themes";
 
 // ====================================================
-import { auth, provider } from "./FirebaseLogin";
-import { signInWithPopup } from "firebase/auth";
+// import { auth, provider } from "./FirebaseLogin";
+// import { signInWithPopup } from "firebase/auth";
 import Axios from "axios";
-import uuid from "react-uuid";
 import { useRouter } from "next/router";
 // ====================================================
 
@@ -36,16 +35,16 @@ const Navbar = () => {
     window.location.reload();
   };
 
-  const handleClick = () => {
-    signInWithPopup(auth, provider).then((data) => {
-      setUser(data.user.displayName);
-      setEmail(data.user.email);
-      setImage(data.user.photoURL);
-      localStorage.setItem("user", data.user.displayName);
-      localStorage.setItem("email", data.user.email);
-      localStorage.setItem("image", data.user.photoURL);
-    });
-  };
+  // const handleClick = async () => {
+  //   await signInWithPopup(auth, provider).then((data) => {
+  //     setUser(data.user.displayName);
+  //     setEmail(data.user.email);
+  //     setImage(data.user.photoURL);
+  //     localStorage.setItem("user", data.user.displayName);
+  //     localStorage.setItem("email", data.user.email);
+  //     localStorage.setItem("image", data.user.photoURL);
+  //   });
+  // };
 
   const router = useRouter();
   const dataExam = router.query.dataExam
@@ -75,16 +74,16 @@ const Navbar = () => {
 
   const [adminList, setAdminList] = useState([]);
 
-  const admin = () => {
-    Axios.get("http://localhost:3001/adminlist").then((response) => {
+  const admin = async () => {
+    await Axios.get("http://localhost:3001/adminlist").then((response) => {
       setAdminList(response.data);
     });
   };
 
   const [dataShow, setDataShow] = useState([]);
 
-  const getData = () => {
-    Axios.get("http://localhost:3001/customer").then((response) => {
+  const getData = async () => {
+    await Axios.get("http://localhost:3001/customer").then((response) => {
       setDataShow(response.data);
     });
   };
@@ -255,6 +254,7 @@ const Navbar = () => {
             <img
               src={image}
               alt="/"
+              referrerPolicy="no-referrer"
               width={50}
               height={50}
               className="dropdown p-0.5 rounded-full shadow-lg shadow-[#707172] cursor-pointer hidden md:flex  "
@@ -313,11 +313,10 @@ const Navbar = () => {
                   Book here
                 </li>
               </Link>
-              <Link href = "/#list">
+              <Link href="/#list">
                 <li
                   onClick={() => setNav(false)}
                   className="text-md py-4 hover:text-[#f9a826] dark:text-[#efefef]"
-                  
                 >
                   Booking list
                 </li>
