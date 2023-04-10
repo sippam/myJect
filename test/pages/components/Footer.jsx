@@ -9,7 +9,7 @@ const Footer = () => {
           <a
             href="https://library.kku.ac.th/elementor-158/enlib/?fbclid=IwAR2HMQPWD0C0jplTRgHFC8LF6SWonvr-i1minfSyj6y-gy4JZ8m1uC6AmzY"
             target="_blank"
-            className="flex items-center mb-4 sm:mb-0  hover:scale-105 ease-in duration-200"
+            className="flex items-center mb-4 sm:mb-0 "
           >
             <Image
               src="../../assets/LogoKKU.svg"

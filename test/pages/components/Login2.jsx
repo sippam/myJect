@@ -32,16 +32,19 @@ const Login2 = () => {
   const googleAuth = new GoogleAuthProvider();
   const auth = getAuth();
   const handleClick = () => {
-    signInWithPopup(auth, googleAuth).then((data) => {
+    signInWithPopup(auth, googleAuth).then(
+      (data) => {
         setUser(data.user.displayName);
         setEmail(data.user.email);
         setImage(data.user.photoURL);
         localStorage.setItem("user", data.user.displayName);
         localStorage.setItem("email", data.user.email);
         localStorage.setItem("image", data.user.photoURL);
-    }, error => {
-      console.log(error);
-    });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   };
 
   const router = useRouter();

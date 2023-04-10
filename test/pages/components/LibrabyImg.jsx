@@ -9,6 +9,7 @@ const LibrabyImg = ({ socialImg, caption }) => {
         src={socialImg}
         alt="LibrabyImg"
         className="w-full h-full layout"
+
         // layout="responsive"
       />
       {/* Overlay */}

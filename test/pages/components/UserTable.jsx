@@ -245,7 +245,7 @@ const UserTable = () => {
   });
 
   return (
-    <div className="relative max-w-screen-[100%] mx-auto dark:bg-[#282a36]">
+    <div className="w-full h-screen text-center relative max-w-screen-[100%] mx-auto dark:bg-[#282a36]">
       <div className="flex px-0 justify-end items-center dark:bg-[#282a36]">
         <div className="m-10 dark:bg-[#282a36]">
           <ToggleButtonGroup
@@ -255,17 +255,26 @@ const UserTable = () => {
             onChange={changeTypeRoom}
             aria-label="Platform"
           >
-            <ToggleButton value="Conference" className="dark:text-white">Conference</ToggleButton>
-            <ToggleButton value="Meeting" className="dark:text-white">Meeting</ToggleButton>
+            <ToggleButton value="Conference" className="dark:text-white">
+              Conference
+            </ToggleButton>
+            <ToggleButton value="Meeting" className="dark:text-white">
+              Meeting
+            </ToggleButton>
           </ToggleButtonGroup>
         </div>
         <div className="m-0">
           <Box sx={{ minWidth: 80 }}>
             <FormControl>
-              <InputLabel id="demo-simple-select-label" className="dark:text-white">Date</InputLabel>
+              <InputLabel
+                id="demo-simple-select-label"
+                className="dark:text-white"
+              >
+                Date
+              </InputLabel>
 
               <Select
-              className="dark:text-white"
+                className="dark:text-white"
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={date}
@@ -273,7 +282,7 @@ const UserTable = () => {
                 onChange={selectDay}
               >
                 {test.map((data) => {
-                  return <MenuItem  value={data}>{data}</MenuItem>;
+                  return <MenuItem value={data}>{data}</MenuItem>;
                 })}
               </Select>
             </FormControl>
@@ -281,8 +290,8 @@ const UserTable = () => {
         </div>
       </div>
 
-      <div>
-        <table class="w-full text-sm text-left text-gray-500 dark:text-[white]">
+      <div className="flex justify-center  h-screen">
+        <table class="w-[50%] text-sm text-left text-gray-500 dark:text-[white]">
           <tbody>
             {match ? (
               <>

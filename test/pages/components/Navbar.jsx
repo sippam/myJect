@@ -16,6 +16,17 @@ import Axios from "axios";
 import { useRouter } from "next/router";
 // ====================================================
 
+export async function getServerSideProps() {
+  const res = await fetch("https://api.example.com/data");
+  const data = await res.json();
+
+  return {
+    props: {
+      data,
+    },
+  };
+}
+
 const Navbar = () => {
   const [nav, setNav] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -34,17 +45,6 @@ const Navbar = () => {
     localStorage.clear();
     window.location.reload();
   };
-
-  // const handleClick = async () => {
-  //   await signInWithPopup(auth, provider).then((data) => {
-  //     setUser(data.user.displayName);
-  //     setEmail(data.user.email);
-  //     setImage(data.user.photoURL);
-  //     localStorage.setItem("user", data.user.displayName);
-  //     localStorage.setItem("email", data.user.email);
-  //     localStorage.setItem("image", data.user.photoURL);
-  //   });
-  // };
 
   const router = useRouter();
   const dataExam = router.query.dataExam
@@ -260,7 +260,7 @@ const Navbar = () => {
               className="dropdown p-0.5 rounded-full shadow-lg shadow-[#707172] cursor-pointer hidden md:flex  "
               style={{ width: "70px", height: "70px" }}
             />
-            <ul className="dropdown p-4">
+            <ul className="dropdown p-1 rounded-full my-0 uppercase">
               <li>
                 <a href="#" onClick={logout}>
                   Logout

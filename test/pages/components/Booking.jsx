@@ -24,9 +24,9 @@ const Booking = () => {
   };
 
   // User name email image
-    // const name = localStorage.getItem("user");
-    // const email = localStorage.getItem("email");
-    // const image = localStorage.getItem("image");
+  // const name = localStorage.getItem("user");
+  // const email = localStorage.getItem("email");
+  // const image = localStorage.getItem("image");
 
   // Set type room for select
   const typeRoom = [
@@ -297,7 +297,7 @@ const Booking = () => {
   // =============================================================
 
   return (
-    <div className="w-full lg:h-screen dark:bg-[#282a36]">
+    <div className="w-full h-full lg:h-screen dark:bg-[#282a36] uppercase">
       <div id="book" className="max-w-[90%] m-auto px-2 py-60 w-full">
         <p className="text-xl tracking-widest uppercase text-[red]"></p>
         <h2 className=" tracking-wide py-4 text-center dark:text-[white]">
@@ -327,12 +327,12 @@ const Booking = () => {
                     onChange={setNameOfRoom}
                     value={roomName}
                   />
-                  <div className="text-lg uppercase dark:text-[white]">
+                  <div className="text-lg dark:text-[white]">
                     <label
                       for="countries"
                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Type of Room
+                      Type Of Room
                     </label>
                     <select
                       id="countries"
@@ -352,12 +352,12 @@ const Booking = () => {
                       ))}
                     </select>
                   </div>
-                  <div className="text-lg uppercase dark:text-[white]">
+                  <div className="text-lg  dark:text-[white]">
                     <label
                       for="countries"
                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Number of Room
+                      Number Of Room
                     </label>
                     <select
                       id="countries"
