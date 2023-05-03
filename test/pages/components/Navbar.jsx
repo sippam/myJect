@@ -34,7 +34,7 @@ const Navbar = () => {
   const logout = () => {
     localStorage.clear();
     window.location.reload();
-}
+  };
 
   useEffect(() => {
     setUser(localStorage.getItem("user"));
@@ -112,7 +112,7 @@ const Navbar = () => {
           <div style={{ display: "flex", alignItems: "center" }}>
             <Link href="/">
               <Image
-                className="hover:scale-105 ease-in duration-200"
+                className=""
                 src="../../assets/LogoKKU.svg"
                 width={50}
                 height={120}
@@ -146,16 +146,16 @@ const Navbar = () => {
             })}
             {/* //////////////////////// */}
             <Link href="/#home">
-              <li className="ml-12 font-semibold text-md tracking-widest uppercase hover:border-b hover:scale-105 ease-in duration-200 hover:text-[#f9a826] dark:text-[#fcfcfc]">
+              <li className="ml-12 font-semibold text-md tracking-widest uppercase  hover:scale-100 ease-in duration-200 hover:text-[#f9a826] dark:text-[#fcfcfc]">
                 {" "}
                 HOME{" "}
               </li>
             </Link>
 
-            <ul className="ml-12 font-semibold text-md tracking-widest hover:border-b hover:scale-105 ease-in duration-200">
+            <ul className="ml-12 font-semibold text-md tracking-widest hover:scale-100 ease-in duration-200">
               <li>
                 <Link legacyBehavior href="/#book">
-                  <a className="hover:text-[#f9a826] flex items-center hover:scale-105 ease-in duration-200 dark:text-[#fcfcfc]">
+                  <a className="hover:text-[#f9a826] flex items-center hover:scale-100 ease-in duration-200 dark:text-[#fcfcfc]">
                     BOOK <IoMdArrowDropdown />
                   </a>
                 </Link>
@@ -168,7 +168,7 @@ const Navbar = () => {
             </ul>
 
             <Link href="/#map">
-              <li className="ml-12 font-semibold text-md tracking-widest uppercase hover:border-b hover:scale-105 ease-in duration-200 hover:text-[#f9a826] dark:text-[#fcfcfc]">
+              <li className="ml-12 font-semibold text-md tracking-widest uppercase  hover:scale-100 ease-in duration-200 hover:text-[#f9a826] dark:text-[#fcfcfc]">
                 {" "}
                 Map{" "}
               </li>
@@ -184,8 +184,8 @@ const Navbar = () => {
         <div className="hidden md:flex pr-10">{renderThemeChanger()}</div>
         {/*============ DARKMODE ADDED HERE!! ============= */}
 
-        {/*============ M ADD ICON HERE !! ============= */}
-        <ul className="ml-1 font-semibold text-md tracking-widest hover:border-b hover:scale-105 ease-in duration-200">
+        {/*============ ICON AND LOGOUT !! ============= */}
+        <ul className="ml-1 font-semibold text-md tracking-widest  hover:scale-100 ease-in duration-200">
           <li>
             <img
               src={image}
@@ -193,16 +193,16 @@ const Navbar = () => {
               referrerPolicy="no-referrer"
               width={50}
               height={50}
-              className="dropdown p-0.5 rounded-full shadow-lg shadow-[#707172] cursor-pointer hidden md:flex  "
+              className="dropdown p-0.5 rounded-full shadow-md shadow-[#707172] cursor-pointer hidden md:flex  "
               style={{ width: "70px", height: "70px" }}
             />
-            <ul className="dropdown p-1 rounded-full my-0 uppercase">
+            <div className="mt-0 dropdown p-1 rounded-full my-0 uppercase">
               <li>
                 <a href="#" onClick={logout}>
                   Logout
                 </a>
               </li>
-            </ul>
+            </div>
           </li>
         </ul>
       </div>
@@ -252,7 +252,7 @@ const Navbar = () => {
               <Link href="/#list">
                 <li
                   onClick={() => setNav(false)}
-                  className="text-md py-4 hover:text-[#f9a826] dark:text-[#efefef]"
+                  className="text-md py-4 hover:text-[#efefef] dark:text-[#efefef]"
                 >
                   Booking list
                 </li>
