@@ -8,24 +8,7 @@ import { TbLocationFilled } from "react-icons/tb";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useEffect } from "react";
 import { useTheme } from "next-themes";
-
-// ====================================================
-// import { auth, provider } from "./FirebaseLogin";
-// import { signInWithPopup } from "firebase/auth";
 import Axios from "axios";
-import { useRouter } from "next/router";
-// ====================================================
-
-export async function getServerSideProps() {
-  const res = await fetch("https://api.example.com/data");
-  const data = await res.json();
-
-  return {
-    props: {
-      data,
-    },
-  };
-}
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -40,38 +23,6 @@ const Navbar = () => {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
   const [image, setImage] = useState("");
-  // console.log(image);
-  const logout = () => {
-    localStorage.clear();
-    window.location.reload();
-  };
-
-  const router = useRouter();
-  const dataExam = router.query.dataExam
-    ? JSON.parse(router.query.dataExam)
-    : {};
-
-  const formatEndDate = new Date();
-  formatEndDate.setDate(formatEndDate.getDate() + 2);
-  const [startDay, setStartDay] = useState(new Date());
-  const [endDay, setEndDay] = useState(formatEndDate);
-  const [enableOrdisable, setEnableOrdisable] = useState(false);
-  const [once, setOnce] = useState(true);
-  const today = new Date();
-
-  const valueExamDay = () => {
-    if (dataExam.enableOrdisable == true) {
-      setStartDay(new Date(dataExam.startDay));
-      setEndDay(new Date(dataExam.endDay));
-      setEnableOrdisable(dataExam.enableOrdisable);
-      setOnce(true);
-    } else {
-      setStartDay(new Date());
-      setEndDay(formatEndDate);
-      setEnableOrdisable(dataExam.enableOrdisable);
-    }
-  };
-
   const [adminList, setAdminList] = useState([]);
 
   const admin = async () => {
@@ -80,29 +31,16 @@ const Navbar = () => {
     });
   };
 
-  const [dataShow, setDataShow] = useState([]);
-
-  const getData = async () => {
-    await Axios.get("http://localhost:3001/customer").then((response) => {
-      setDataShow(response.data);
-    });
-  };
+  const logout = () => {
+    localStorage.clear();
+    window.location.reload();
+}
 
   useEffect(() => {
     setUser(localStorage.getItem("user"));
     setEmail(localStorage.getItem("email"));
     setImage(localStorage.getItem("image"));
-    if (today.getDate() === endDay) {
-      setStartDay(new Date());
-      setEndDay(formatEndDate);
-    }
-    getData();
     admin();
-    valueExamDay();
-    if (once) {
-      valueExamDay();
-      setOnce(false);
-    }
   }, []);
   // ===============================================================
 
@@ -197,8 +135,6 @@ const Navbar = () => {
             {adminList.map((item) => {
               if (item.Name == email) {
                 return (
-                  // <Link href="/#map">
-                  // <Link key={uuid()} href={{pathname: "../components/admin", query:{ dataShow : JSON.stringify(dataShow)}}}>
                   <Link href="../components/admin">
                     <li className="ml-12 font-semibold text-md tracking-widest uppercase hover:border-b hover:scale-105 ease-in duration-200 hover:text-[#f9a826] dark:text-[#fcfcfc]">
                       {" "}
@@ -209,7 +145,7 @@ const Navbar = () => {
               }
             })}
             {/* //////////////////////// */}
-            <Link href="../components/Login2">
+            <Link href="/#home">
               <li className="ml-12 font-semibold text-md tracking-widest uppercase hover:border-b hover:scale-105 ease-in duration-200 hover:text-[#f9a826] dark:text-[#fcfcfc]">
                 {" "}
                 HOME{" "}

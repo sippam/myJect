@@ -15,10 +15,10 @@ const request = () => {
   useEffect(() => {
     getData();
     setEmail(localStorage.getItem("email"));
-  }, []);
+  });
 
   const deleteBooking = (id) => {
-    Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
+    Axios.delete(`http://localhost:3001/delete/${id}`).then(() => {
       setDataShow(
         dataShow.filter((val) => {
           return val.id != id;
@@ -58,14 +58,14 @@ const request = () => {
                         <td className="px-6 py-4">
                           {val.timeFrom} - {val.timeTo}
                         </td>
-                        <td className="ha">
+                        <td className="px-6 py-4">
                           <button
                             className="delete-btn"
                             onClick={() => {
                               deleteBooking(val.id);
                             }}
                           >
-                            Delete
+                            Cancel
                           </button>
                         </td>
                       </tr>
@@ -75,8 +75,6 @@ const request = () => {
               </tbody>
             </table>
           </div>
-          {/* </div> */}
-          {/* </div> */}
         </div>
       </div>
     </div>

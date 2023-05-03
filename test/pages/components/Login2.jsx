@@ -5,33 +5,23 @@ import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { useTheme } from "next-themes";
 import { BsFillMoonFill, BsSun } from "react-icons/bs";
-
-// ======================================================
 import { React, useState, useEffect } from "react";
-// import { auth } from "./FirebaseLogin";
 import { signInWithPopup, GoogleAuthProvider, getAuth } from "firebase/auth";
-import Axios from "axios";
-import { useRouter } from "next/router";
 import Main from "./Main";
 import Mapping from "./Mapping";
 import Booking from "./Booking";
 import Footer from "./Footer";
 import Request from "./request";
 import UserTable from "./UserTable";
-// ======================================================
 
 const Login2 = () => {
   const [mounted, setMounted] = useState(false);
   const { systemTheme, theme, setTheme } = useTheme();
-
-  // ===================================================================================
   const [user, setUser] = useState("");
-  const [email, setEmail] = useState("");
-  const [image, setImage] = useState("");
 
   const googleAuth = new GoogleAuthProvider();
   const auth = getAuth();
-  const handleClick = () => {
+  const signIn = () => {
     signInWithPopup(auth, googleAuth).then(
       (data) => {
         setUser(data.user.displayName);
@@ -47,73 +37,11 @@ const Login2 = () => {
     );
   };
 
-  const router = useRouter();
-  const dataExam = router.query.dataExam
-    ? JSON.parse(router.query.dataExam)
-    : {};
-
-  const formatEndDate = new Date();
-  formatEndDate.setDate(formatEndDate.getDate() + 2);
-  const [startDay, setStartDay] = useState(new Date());
-  const [endDay, setEndDay] = useState(formatEndDate);
-  const [enableOrdisable, setEnableOrdisable] = useState(false);
-  const [once, setOnce] = useState(true);
-  const today = new Date();
-
-  // const prevBTN = localStorage.getItem("prevBTN");
-  // const startExamDay = localStorage.getItem("startExamDay");
-  // const endExamDay = localStorage.getItem("endExamDay");
-  // console.log(prevBTN);
-  // const valueExamDay = () => {
-  //   if (prevBTN == true) {
-  //     setStartDay(new Date(startExamDay));
-  //     setEndDay(new Date(endExamDay));
-  //     setEnableOrdisable(prevBTN);
-  //     setOnce(true);
-  //   } else {
-  //     setStartDay(new Date());
-  //     setEndDay(formatEndDate);
-  //     setEnableOrdisable(prevBTN);
-  //   }
-  // };
-
-  const [adminList, setAdminList] = useState([]);
-
-  const admin = () => {
-    Axios.get("http://localhost:3001/adminlist").then((response) => {
-      setAdminList(response.data);
-    });
-  };
-
-  const [dataShow, setDataShow] = useState([]);
-
-  const getData = () => {
-    Axios.get("http://localhost:3001/customer").then((response) => {
-      setDataShow(response.data);
-    });
-  };
-
   useEffect(() => {
     setUser(localStorage.getItem("user"));
-    setEmail(localStorage.getItem("email"));
-    setImage(localStorage.getItem("image"));
-    if (today.getDate() === endDay) {
-      setStartDay(new Date());
-      setEndDay(formatEndDate);
-    }
-    getData();
-    admin();
-    // valueExamDay();
-    if (once) {
-      // valueExamDay();
-      setOnce(false);
-    }
-  }, []);
-  // ===================================================================================
-
-  useEffect(() => {
     setMounted(true);
   }, []);
+
   const renderThemeChanger = () => {
     if (!mounted) return null;
     const currentTheme = theme === "system" ? systemTheme : theme;
@@ -175,7 +103,7 @@ const Login2 = () => {
                         {renderThemeChanger()}
                         <Link href="">
                           <button
-                            onClick={handleClick}
+                            onClick={signIn}
                             className="flex btn-grad hover:bg-right bg-[#B30000] text-white mt-3 py-4 px-7 rounded-50 uppercase cursor-pointer hover:scale-105 ease-in duration-300 text-sm tracking-widest font-semibold ml-10 mr-10"
                           >
                             Login with Google

@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import Img1 from "../../public/assets/md-thai-emblem_300x300.png";
 import Img2 from "../../public/assets/AGKKU.png";
 import Img3 from "../../public/assets/AMSKKU.png";

@@ -1,33 +1,14 @@
 "use client";
 import Image from "next/image";
-
-// =============================================================
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import uuid from "react-uuid";
 import Axios from "axios";
 import { addDays } from "date-fns";
-// =============================================================
+import emailjs from "@emailjs/browser";
 
 const Booking = () => {
-  // =============================================================
-
-  const deleteBooking = (id) => {
-    Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
-      setDataShow(
-        dataShow.filter((val) => {
-          return val.id != id;
-        })
-      );
-    });
-  };
-
-  // User name email image
-  // const name = localStorage.getItem("user");
-  // const email = localStorage.getItem("email");
-  // const image = localStorage.getItem("image");
-
   // Set type room for select
   const typeRoom = [
     { value: "Conference", text: "Conference Room" },
@@ -48,10 +29,6 @@ const Booking = () => {
     { value: 4, text: 4 },
   ];
 
-  // Set min max time
-  const [minTime, setMinTime] = useState(new Date("1/1/1111 10:00 AM"));
-  const [maxTime, setMaxTime] = useState(new Date("1/1/1111 4:00 PM"));
-
   // set state of room name
   const [roomName, setRoomName] = useState("");
   // set state of type room name, default state is default because will use it in value
@@ -66,8 +43,9 @@ const Booking = () => {
   const [getTimeTo, setGetTimeTo] = useState(0);
   // set default number of room to select in form
   const [numberRoom, setNumberRoom] = useState(numberInRoomConferece);
-  // Let user select type of room and will select numbet of name
+  // Let user select type of room and will select number of name
   const [selectRoom, setSelectRoom] = useState(false);
+  // Check that user select room or not
   const [inputRoom, setInputRoom] = useState(false);
   // Check time hours between 1-3 hours
   const checkTime = getTimeTo - getTimeFrom;
@@ -87,9 +65,13 @@ const Booking = () => {
   const [BookingDay, setBookingDay] = useState(new Date());
   const [startBookingDay, setStartBookingDay] = useState(new Date().getDate());
   const [endBookingDay, setEndBookingDay] = useState(new Date().getDate() + 2);
+  // Set min max time
+  const [minTime, setMinTime] = useState(new Date("1/1/1111 10:00 AM"));
+  const [maxTime, setMaxTime] = useState(new Date("1/1/1111 4:00 PM"));
   const period = endBookingDay - startBookingDay;
   const today = new Date();
 
+  // Set weekend can't booking and set exam period that can booking
   const weekend = (event) => {
     if (localStorage.getItem("prevBTN") == "true") {
       return (
@@ -103,6 +85,7 @@ const Booking = () => {
     }
   };
 
+  // ==================== user fill and submit the form ==========================
   // Collect data user type roomName
   const setNameOfRoom = (event) => {
     setRoomName(event.target.value);
@@ -126,6 +109,18 @@ const Booking = () => {
     setCanSelectDateTime(true);
   };
 
+  // Collect data user select day
+  const selectDay = (valueDay) => {
+    setCheckSelectDay(true);
+    setCollectDay(
+      `${valueDay.getFullYear()}/${
+        valueDay.getMonth() + 1
+      }/${valueDay.getDate()}`
+    );
+    setDay(valueDay);
+    setGetDay(valueDay.getDate());
+  };
+
   // Collect data user select timeFrom
   const changeTimeFrom = (valueTime) => {
     setGetTimeFrom(valueTime.getHours());
@@ -138,20 +133,10 @@ const Booking = () => {
     setTimeTo(valueTime);
   };
 
-  const checkDay = (valueDay) => {
-    setCheckSelectDay(true);
-    setCollectDay(
-      `${valueDay.getFullYear()}/${
-        valueDay.getMonth() + 1
-      }/${valueDay.getDate()}`
-    );
-    setDay(valueDay);
-    setGetDay(valueDay.getDate());
-  };
-  // Save data from user
+  // Save data from form
   const saveData = (event) => {
-    // event.preventDefault();
-
+    event.preventDefault();
+    sendEmail();
     // Only log show data in form ======= ( can delete) =======
     const collectData = {
       collectday: collectday,
@@ -163,7 +148,7 @@ const Booking = () => {
       timeTo: getTimeTo,
     };
     console.log(collectData);
-    // set to default value
+    // After save data set to default value
     setCollectDay(new Date());
     setDay(null);
     setRoomName("");
@@ -174,8 +159,9 @@ const Booking = () => {
     setSelectRoom(false);
     setInputRoom(false);
   };
+  //================================================================================================
 
-  // Server
+  // Data in database
   const [dataShow, setDataShow] = useState([]);
 
   // Get data to show
@@ -185,7 +171,33 @@ const Booking = () => {
     });
   };
 
-  // Post datat into myphpadmin
+  useEffect(() => {
+    getData();
+  }, []);
+
+  // Check room booking if have booking can't submit form
+  const mapItem = dataShow.map((data) => {
+    const calRoomNumberDay =
+      String(data.roomType) == roomType &&
+      String(data.roomNumber) == roomNumber &&
+      Number(data.day) == getDay;
+    const calTomeFrom =
+      getTimeFrom >= Number(data.timeFrom) && getTimeFrom < Number(data.timeTo);
+    const calTimeTo =
+      getTimeTo > Number(data.timeFrom) && getTimeTo <= Number(data.timeTo);
+    if (calRoomNumberDay) {
+      if (calTomeFrom || calTimeTo) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  });
+
+  // ========================= Send data in form to database =========================
+  // Post data into database
   const addData = () => {
     Axios.post("http://localhost:3001/create", {
       collectday: collectday,
@@ -214,37 +226,13 @@ const Booking = () => {
       ]);
     });
   };
-
-  // Check room booking if have booking can't submit form
-  const mapItem = dataShow.map((data) => {
-    const calRoomNumberDay =
-      String(data.roomType) == roomType &&
-      String(data.roomNumber) == roomNumber &&
-      Number(data.day) == getDay;
-    const calTomeFrom =
-      getTimeFrom >= Number(data.timeFrom) && getTimeFrom < Number(data.timeTo);
-    console.log(getTimeFrom);
-    const calTimeTo =
-      getTimeTo > Number(data.timeFrom) && getTimeTo <= Number(data.timeTo);
-    if (calRoomNumberDay) {
-      if (calTomeFrom || calTimeTo) {
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      return true;
-    }
-  });
+  //===========================================================================
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [image, setImage] = useState("");
 
   useEffect(() => {
-    // console.log(valueExam);
-    // Use below code to always display code
-    getData();
+    // Check user fill all form
     const check =
       roomName.trim().length > 0 &&
       roomType !== "default" &&
@@ -257,22 +245,31 @@ const Booking = () => {
       mapItem.indexOf(false) === -1;
     setCheckValid(check);
 
+    // Get name and email user
     const getname = localStorage.getItem("user");
     const getemail = localStorage.getItem("email");
-    const getimage = localStorage.getItem("image");
     setName(getname);
     setEmail(getemail);
-    setImage(getimage);
 
+    /*
+    If admin allow exam peroid
+        day will allow booking by admin
+        time will allow booking between 00.00 - 23.59
+    */
     if (localStorage.getItem("prevBTN") == "true") {
+      setBookingDay(new Date(localStorage.getItem("startExamDay")));
       setStartBookingDay(
         new Date(localStorage.getItem("startExamDay")).getDate()
       );
       setEndBookingDay(new Date(localStorage.getItem("endExamDay")).getDate());
       setMinTime(new Date("1/1/1111 12:00 AM"));
       setMaxTime(new Date("1/1/1111 11:00 PM"));
-      // setBookingDay(new Date(valueExam.startDay));
     } else {
+      /* 
+      If today is last day in exam period
+          day will allow booking between 3 days
+          time will allow booking between 10.00 - 16.00
+      */
       if (today.getDate() !== BookingDay.getDate()) {
         setStartBookingDay(new Date().getDate());
         setEndBookingDay(new Date().getDate() + 2);
@@ -294,6 +291,27 @@ const Booking = () => {
     checkSelectDay,
   ]);
 
+  // ========================= Send Email =========================
+  const form = useRef();
+
+  const sendEmail = () => {
+    emailjs
+      .sendForm(
+        "service_qorqp1o",
+        "template_nfeysoo",
+        form.current,
+        "yEd25IyzHwqVp6tgh"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
   // =============================================================
 
   return (
@@ -309,18 +327,21 @@ const Booking = () => {
 
           <div className="col-span-3 lg:col-span-2 w-full mx-auto h-full shadow-xl shadow-gray-400 dark:shadow-[black] dark:bg-[#202020] bg-[#F2F2F2] rounded-xl p4">
             {/* <div className="text-center"><h2>let&apos;s book!</h2></div> */}
-            <form onSubmit={saveData}>
+            <form ref={form} onSubmit={saveData}>
               <div className="grid md:grid-cols-1 gap-4 w-full py-3">
+                <input value={name} name="name" type="hidden" />
                 <div className="px-3 py-2 ">
                   <label
-                    for="email"
+                    for="reservationName"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Reservation Name
                   </label>
                   <input
+                    name="Reservation_Name"
                     type="text"
-                    id="email"
+                    id="reservationName"
+                    autocomplete="off"
                     aria-describedby="helper-text-explanation"
                     class="bg-gray-50 border mb-3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Your Reservation's Name"
@@ -329,13 +350,15 @@ const Booking = () => {
                   />
                   <div className="text-lg dark:text-[white]">
                     <label
-                      for="countries"
+                      for="typeRoom"
                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Type Of Room
                     </label>
                     <select
-                      id="countries"
+                      name="Type_Of_Room"
+                      id="typeRoom"
+                      autocomplete="off"
                       class="bg-gray-50 border mb-3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       onChange={setTypeOfRoom}
                       value={roomType}
@@ -354,13 +377,15 @@ const Booking = () => {
                   </div>
                   <div className="text-lg  dark:text-[white]">
                     <label
-                      for="countries"
+                      for="roomType"
                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Number Of Room
                     </label>
                     <select
-                      id="countries"
+                      name="Number_Of_Room"
+                      id="roomType"
+                      autocomplete="off"
                       class="bg-gray-50 border mb-3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       onChange={setRoomofNumber}
                       value={roomNumber}
@@ -385,10 +410,12 @@ const Booking = () => {
 
                     <div className="max-w-lg ">
                       <DatePicker
+                        name="Date"
                         className="relative bg-gray-50 border mb-3 border-gray-300  rounded-lg  bg-transparent  px-4 py-[0.32rem] text-sm leading-[2.1] outline-none  focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 dark:text-white dark:placeholder-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholderText="Select Date"
+                        autoComplete="off"
                         selected={day}
-                        onChange={checkDay}
+                        onChange={selectDay}
                         minDate={BookingDay}
                         maxDate={addDays(BookingDay, period)}
                         filterDate={weekend}
@@ -406,10 +433,10 @@ const Booking = () => {
                       </label>
 
                       <DatePicker
-                        name="start"
-                        // class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        name="Time_Start"
                         className="flex col-12 relative bg-gray-50 border mb-3 border-gray-300  pl-10 rounded-lg  bg-transparent px-3 w-full  py-[0.32rem] text-sm leading-[2.1] outline-none  focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 dark:text-white dark:placeholder-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholderText="Select Time Start"
+                        autoComplete="off"
                         selected={timeFrom}
                         onChange={changeTimeFrom}
                         showTimeSelect
@@ -436,10 +463,11 @@ const Booking = () => {
                       </label>
 
                       <DatePicker
-                        name="end"
+                        name="Time_End"
                         type="text"
                         className="flex col-12 relative bg-gray-50 border mb-3 border-gray-300  pl-10 rounded-lg  bg-transparent px-3 w-full  py-[0.32rem] text-sm leading-[2.1] outline-none  focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 dark:text-white dark:placeholder-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholderText="Select Time End"
+                        autoComplete="off"
                         selected={timeTo}
                         onChange={changeTimeTo}
                         showTimeSelect

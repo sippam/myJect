@@ -8,93 +8,8 @@ import Select from "@mui/material/Select";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import "react-datepicker/dist/react-datepicker.css";
-import { useRouter } from "next/router";
 
 const UserTable = () => {
-  const router = useRouter();
-  const label = { inputProps: { "aria-label": "Switch demo" } };
-
-  const [startExam, setStartExam] = useState(new Date());
-  const [endExam, setEndExam] = useState(new Date());
-  const minDate = new Date(
-    new Date().getFullYear(),
-    new Date().getMonth(),
-    new Date().getDate()
-  );
-
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const today = new Date();
-
-  function idk() {
-    if (startDate !== null && endDate !== null) {
-      setStartExam(startDate);
-      setEndExam(endDate);
-      localStorage.setItem("startExamDay", startDate);
-      localStorage.setItem("endExamDay", endDate);
-    }
-  }
-
-  useEffect(() => {
-    idk();
-  }, [startDate, endDate]);
-  const [checkSwitch, setCheckSwitch] = useState();
-
-  useEffect(() => {
-    prevData();
-  }, []);
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  function prevData() {
-    if (
-      localStorage.getItem("prevBTN") == "true" &&
-      localStorage.getItem("startExamDay") !== "null" &&
-      localStorage.getItem("endExamDay") !== "null"
-    ) {
-      setCheckSwitch(true);
-      setStartDate(new Date(localStorage.getItem("startExamDay")));
-      setEndDate(new Date(localStorage.getItem("endExamDay")));
-    } else {
-      setCheckSwitch(false);
-      setStartDate(null);
-      setEndDate(null);
-      localStorage.removeItem("startExamDay");
-      localStorage.removeItem("endExamDay");
-    }
-  }
-  const [dataExam, setDataExam] = useState({});
-
-  const switchOnOff = () => {
-    localStorage.setItem("prevBTN", JSON.stringify(!checkSwitch));
-    setCheckSwitch(!checkSwitch);
-    if (checkSwitch === true) {
-      setDataExam({
-        startDay: startExam,
-        endDay: endExam,
-        enableOrdisable: checkSwitch,
-      });
-      router.reload(window.location.pathname);
-    } else {
-      setDataExam({
-        startDay: startExam,
-        endDay: endExam,
-        enableOrdisable: checkSwitch,
-      });
-    }
-  };
-
-  const time = [
-    { id: "10", text: "10:00" },
-    { id: "11", text: "11:00" },
-    { id: "12", text: "12:00" },
-    { id: "13", text: "13:00" },
-    { id: "14", text: "14:00" },
-    { id: "15", text: "15:00" },
-    { id: "16", text: "16:00" },
-  ];
 
   const getData = () => {
     Axios.get("http://localhost:3001/customer").then((response) => {
@@ -102,40 +17,12 @@ const UserTable = () => {
     });
   };
 
-  const deleteBooking = (id) => {
-    Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
-      setDataShow(
-        dataShow.filter((val) => {
-          return val.id != id;
-        })
-      );
-    });
-  };
   const [dataShow, setDataShow] = useState([]);
-  console.log(dataShow);
 
   useEffect(() => {
     getData();
-  }, []);
+  });
 
-  const typeRoom = [
-    { value: "Conference", text: "Conference Room" },
-    { value: "Meeting", text: "Meeting Room" },
-  ];
-
-  // Set number of room in Conference room
-  const numberInRoomConferece = [
-    { value: 1, text: 1 },
-    { value: 2, text: 2 },
-    { value: 3, text: 3 },
-  ];
-  // Set number of room in Meeting room
-  const numberInRoomMeeting = [
-    { value: 1, text: 1 },
-    { value: 2, text: 2 },
-    { value: 3, text: 3 },
-    { value: 4, text: 4 },
-  ];
 
   const [startBooking, setStartBooking] = useState(new Date().getDate());
   const [endBooking, setEndBooking] = useState(new Date().getDate() + 2);
@@ -156,12 +43,11 @@ const UserTable = () => {
     getData();
   }, []);
 
-  const test = [];
+  const showPeriodDay = [];
   for (let i = 0; i <= periodBooking; i++) {
-    test.push(startBooking + i);
+    showPeriodDay.push(startBooking + i);
   }
 
-  // console.log(test);
   const [date, setDate] = React.useState(new Date().getDate());
 
   const selectDay = (event) => {
@@ -281,7 +167,7 @@ const UserTable = () => {
                 label="Date"
                 onChange={selectDay}
               >
-                {test.map((data) => {
+                {showPeriodDay.map((data) => {
                   return <MenuItem value={data}>{data}</MenuItem>;
                 })}
               </Select>
