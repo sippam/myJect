@@ -25,8 +25,6 @@ const Login2 = () => {
     signInWithPopup(auth, googleAuth).then(
       (data) => {
         setUser(data.user.displayName);
-        setEmail(data.user.email);
-        setImage(data.user.photoURL);
         localStorage.setItem("user", data.user.displayName);
         localStorage.setItem("email", data.user.email);
         localStorage.setItem("image", data.user.photoURL);

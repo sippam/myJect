@@ -56,7 +56,7 @@ const request = () => {
                         <td className="px-6 py-4">{val.roomType}</td>
                         <td className="px-6 py-4">{val.roomNumber}</td>
                         <td className="px-6 py-4">
-                          {val.timeFrom} - {val.timeTo}
+                          {val.timeFrom}:00 - {val.timeTo}:00
                         </td>
                         <td className="px-6 py-4">
                           <button

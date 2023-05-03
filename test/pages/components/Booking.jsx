@@ -297,10 +297,10 @@ const Booking = () => {
   const sendEmail = () => {
     emailjs
       .sendForm(
-        "service_qorqp1o",
-        "template_nfeysoo",
+        process.env.NEXT_PUBLIC_SERVICE_ID,
+        process.env.NEXT_PUBLIC_TEMPLATE_ID,
         form.current,
-        "yEd25IyzHwqVp6tgh"
+        process.env.NEXT_PUBLIC_PUBLIC_KEY
       )
       .then(
         (result) => {
@@ -311,7 +311,6 @@ const Booking = () => {
         }
       );
   };
-
   // =============================================================
 
   return (
@@ -326,10 +325,12 @@ const Booking = () => {
           {/* left */}
 
           <div className="col-span-3 lg:col-span-2 w-full mx-auto h-full shadow-xl shadow-gray-400 dark:shadow-[black] dark:bg-[#202020] bg-[#F2F2F2] rounded-xl p4">
-            {/* <div className="text-center"><h2>let&apos;s book!</h2></div> */}
             <form ref={form} onSubmit={saveData}>
               <div className="grid md:grid-cols-1 gap-4 w-full py-3">
+                {/* ====================== User name ========================== */}
                 <input value={name} name="name" type="hidden" />
+
+                {/* ====================== Reservation Name ========================== */}
                 <div className="px-3 py-2 ">
                   <label
                     for="reservationName"
@@ -348,6 +349,8 @@ const Booking = () => {
                     onChange={setNameOfRoom}
                     value={roomName}
                   />
+
+                  {/* ====================== Type Of Room ========================== */}
                   <div className="text-lg dark:text-[white]">
                     <label
                       for="typeRoom"
@@ -375,6 +378,8 @@ const Booking = () => {
                       ))}
                     </select>
                   </div>
+
+                  {/* ====================== Number Of Room ========================== */}
                   <div className="text-lg  dark:text-[white]">
                     <label
                       for="roomType"
@@ -402,6 +407,7 @@ const Booking = () => {
                       ))}
                     </select>
                   </div>
+
                   {/*====================== DATE ========================== */}
                   <div className="text-lg uppercase dark:text-white">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -424,8 +430,8 @@ const Booking = () => {
                       />
                     </div>
                   </div>
-                  {/* ====================== DATE COPPY========================== */}
 
+                  {/* ====================== Time ========================== */}
                   <div date-rangepicker class="flex items-center justify-start">
                     <div class="relative ">
                       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -483,6 +489,7 @@ const Booking = () => {
                   </div>
                 </div>
 
+                {/* ====================== Submit BTN ========================== */}
                 <div className="px-[30%] py-2 text-center">
                   <button
                     onClick={addData}
