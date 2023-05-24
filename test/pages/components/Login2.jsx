@@ -6,17 +6,25 @@ import { FcGoogle } from "react-icons/fc";
 import { useTheme } from "next-themes";
 import { BsFillMoonFill, BsSun } from "react-icons/bs";
 import { React, useState, useEffect } from "react";
+<<<<<<< HEAD
 import { signInWithPopup, GoogleAuthProvider, getAuth } from "firebase/auth";
+=======
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
 import Main from "./Main";
 import Mapping from "./Mapping";
 import Booking from "./Booking";
 import Footer from "./Footer";
 import Request from "./request";
 import UserTable from "./UserTable";
+<<<<<<< HEAD
+=======
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
 
 const Login2 = () => {
   const [mounted, setMounted] = useState(false);
   const { systemTheme, theme, setTheme } = useTheme();
+<<<<<<< HEAD
   const [user, setUser] = useState("");
 
   const googleAuth = new GoogleAuthProvider();
@@ -40,6 +48,39 @@ const Login2 = () => {
     setMounted(true);
   }, []);
 
+=======
+
+  const session = useSession();
+  const supabase = useSupabaseClient();
+
+  async function signIn() {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        scopes: "https://www.googleapis.com/auth/calendar",
+      },
+    });
+    if (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    setMounted(true);
+    getLocation();
+    checkLocationLibrary(latitude, longitude);
+  }, []);
+
+  useEffect(() => {
+    if (session) {
+      localStorage.setItem("user", session.user.user_metadata.full_name);
+      localStorage.setItem("email", session.user.user_metadata.email);
+      localStorage.setItem("image", session.user.user_metadata.avatar_url);
+      localStorage.setItem("providerToken", session.provider_token);
+    }
+  });
+
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
   const renderThemeChanger = () => {
     if (!mounted) return null;
     const currentTheme = theme === "system" ? systemTheme : theme;
@@ -61,9 +102,35 @@ const Login2 = () => {
       );
     }
   };
+<<<<<<< HEAD
   return (
     <>
       {user ? (
+=======
+
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+
+  const getLocation = () => navigator.geolocation.getCurrentPosition((position) => {
+    setLatitude(position.coords.latitude)
+    setLongitude(position.coords.longitude)
+    // console.log("Latitude is :", position.coords.latitude);
+    // console.log("Longitude is :", position.coords.longitude);
+  })
+// 16.47349855612493, 102.82311902727989
+// 16.472855441332136, 102.82367524081515
+  function checkLocationLibrary(x,y) {
+    if ((x >= 16.47349855612493 && x <= 16.472855441332136) && (y>=102.82311902727989 && y<= 102.82367524081515)) {
+      // console.log("in library");
+    } else {
+      // console.log("Bruh");
+    }
+  }
+
+  return (
+    <>
+      {session ? (
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
         <>
           <Navbar />
           <Main />
@@ -130,4 +197,8 @@ const Login2 = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Login2;
+=======
+export default Login2;
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)

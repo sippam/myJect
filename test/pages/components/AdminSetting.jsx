@@ -30,7 +30,10 @@ const AdminSetting = () => {
 
   useEffect(() => {
     prevData();
+<<<<<<< HEAD
     getData();
+=======
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
   }, []);
 
   function prevData() {

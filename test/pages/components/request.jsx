@@ -1,10 +1,15 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
+<<<<<<< HEAD
+=======
+import { getData } from './CollectData'
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
 
 const request = () => {
   const [email, setEmail] = useState("");
   const [dataShow, setDataShow] = useState([]);
 
+<<<<<<< HEAD
   const getData = async () => {
     await Axios.get("http://localhost:3001/customer").then((response) => {
       setDataShow(response.data);
@@ -14,6 +19,15 @@ const request = () => {
 
   useEffect(() => {
     getData();
+=======
+  const getUserData = async () => {
+    const data = await getData();
+    setDataShow(data);
+  }
+
+  useEffect(() => {
+    getUserData();
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
     setEmail(localStorage.getItem("email"));
   });
 

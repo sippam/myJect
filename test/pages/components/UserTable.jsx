@@ -8,6 +8,7 @@ import Select from "@mui/material/Select";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import "react-datepicker/dist/react-datepicker.css";
+<<<<<<< HEAD
 
 const UserTable = () => {
 
@@ -16,11 +17,25 @@ const UserTable = () => {
       setDataShow(response.data);
     });
   };
+=======
+import { getData } from './CollectData'
+
+const UserTable = () => {
+
+  const getUserData = async () => {
+    const data = await getData();
+    setDataShow(data);
+  }
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
 
   const [dataShow, setDataShow] = useState([]);
 
   useEffect(() => {
+<<<<<<< HEAD
     getData();
+=======
+    getUserData();
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
   });
 
 

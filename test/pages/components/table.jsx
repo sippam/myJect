@@ -11,6 +11,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Switch from "@mui/material/Switch";
 import { useRouter } from "next/router";
+<<<<<<< HEAD
+=======
+import { getData } from './CollectData'
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
 
 const table = () => {
   const router = useRouter();
@@ -59,11 +63,18 @@ const table = () => {
   };
 
   const [dataShow, setDataShow] = useState([]);
+<<<<<<< HEAD
   const getData = () => {
     Axios.get("http://localhost:3001/customer").then((response) => {
       setDataShow(response.data);
     });
   };
+=======
+  const getUserData = async () => {
+    const data = await getData();
+    setDataShow(data);
+  }
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
 
   const deleteBooking = (id) => {
     Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
@@ -91,7 +102,11 @@ const table = () => {
       setStartBooking(new Date().getDate());
       setEndBooking(new Date().getDate() + 2);
     }
+<<<<<<< HEAD
     getData();
+=======
+    getUserData();
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
     prevData();
   }, []);
 

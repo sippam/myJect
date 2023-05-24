@@ -7,6 +7,7 @@ import uuid from "react-uuid";
 import Axios from "axios";
 import { addDays } from "date-fns";
 import emailjs from "@emailjs/browser";
+<<<<<<< HEAD
 
 const Booking = () => {
   // Set type room for select
@@ -28,6 +29,11 @@ const Booking = () => {
     { value: 3, text: 3 },
     { value: 4, text: 4 },
   ];
+=======
+import { typeRoom, numberInRoomConferece, numberInRoomMeeting, getData } from "./CollectData";
+
+const Booking = () => {
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
 
   // set state of room name
   const [roomName, setRoomName] = useState("");
@@ -136,8 +142,13 @@ const Booking = () => {
   // Save data from form
   const saveData = (event) => {
     event.preventDefault();
+<<<<<<< HEAD
     sendEmail();
     // Only log show data in form ======= ( can delete) =======
+=======
+    // sendEmail();
+    createCalendarEvent();
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
     const collectData = {
       collectday: collectday,
       day: getDay,
@@ -155,7 +166,13 @@ const Booking = () => {
     setRoomType("default");
     setRoomNumber("default");
     setTimeFrom(null);
+<<<<<<< HEAD
     setTimeTo(null);
+=======
+    setGetTimeFrom(0);
+    setTimeTo(null);
+    setGetTimeTo(0);
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
     setSelectRoom(false);
     setInputRoom(false);
   };
@@ -165,6 +182,7 @@ const Booking = () => {
   const [dataShow, setDataShow] = useState([]);
 
   // Get data to show
+<<<<<<< HEAD
   const getData = async () => {
     await Axios.get("http://localhost:3001/customer").then((response) => {
       setDataShow(response.data);
@@ -173,6 +191,15 @@ const Booking = () => {
 
   useEffect(() => {
     getData();
+=======
+  const getUserData = async () => {
+    const data = await getData();
+    setDataShow(data);
+  }
+
+  useEffect(() => {
+    getUserData();
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
   }, []);
 
   // Check room booking if have booking can't submit form
@@ -297,10 +324,17 @@ const Booking = () => {
   const sendEmail = () => {
     emailjs
       .sendForm(
+<<<<<<< HEAD
         "service_qorqp1o",
         "template_nfeysoo",
         form.current,
         "yEd25IyzHwqVp6tgh"
+=======
+        process.env.NEXT_PUBLIC_SERVICE_ID,
+        process.env.NEXT_PUBLIC_TEMPLATE_ID,
+        form.current,
+        process.env.NEXT_PUBLIC_PUBLIC_KEY
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
       )
       .then(
         (result) => {
@@ -311,9 +345,45 @@ const Booking = () => {
         }
       );
   };
+<<<<<<< HEAD
 
   // =============================================================
 
+=======
+  // =============================================================
+
+  // ========================= Google calendars =========================
+  const eventName = "EN-Library Booking";
+  const description = `Reservation name: ${roomName}\nRoom type and number : ${roomType}, ${roomNumber}\nTime: ${collectday}, ${getTimeFrom}:00 - ${getTimeTo}:00`
+  
+  async function createCalendarEvent() {
+    const event = {
+      'summary': eventName,
+      'description': description,
+      'start': {
+        'dateTime': new Date(day.getFullYear(), day.getMonth(), day.getDate(), getTimeFrom, 0, 0),
+        'timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
+      },
+      'end': {
+        'dateTime': new Date(day.getFullYear(), day.getMonth(), day.getDate(), getTimeTo, 0, 0),
+        'timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
+      },
+    };
+    await fetch(
+      "https://www.googleapis.com/calendar/v3/calendars/primary/events/",
+      {
+        method: "POST",
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem("providerToken"),
+        },
+        body: JSON.stringify(event),
+      }
+    ).then((data) => {
+      return data.json();
+    });
+  }
+
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
   return (
     <div className="w-full h-full lg:h-screen dark:bg-[#282a36] uppercase">
       <div id="book" className="max-w-[90%] m-auto px-2 py-60 w-full">
@@ -517,4 +587,9 @@ const Booking = () => {
     </div>
   );
 };
+<<<<<<< HEAD
 export default Booking;
+=======
+
+export default Booking;
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)

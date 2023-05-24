@@ -8,7 +8,12 @@ import { TbLocationFilled } from "react-icons/tb";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useEffect } from "react";
 import { useTheme } from "next-themes";
+<<<<<<< HEAD
 import Axios from "axios";
+=======
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { getAdmin } from './CollectData'
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -20,11 +25,15 @@ const Navbar = () => {
   const [mounted, setMounted] = useState(false);
 
   // ===============================================================
+<<<<<<< HEAD
   const [user, setUser] = useState("");
+=======
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
   const [email, setEmail] = useState("");
   const [image, setImage] = useState("");
   const [adminList, setAdminList] = useState([]);
 
+<<<<<<< HEAD
   const admin = async () => {
     await Axios.get("http://localhost:3001/adminlist").then((response) => {
       setAdminList(response.data);
@@ -38,6 +47,20 @@ const Navbar = () => {
 
   useEffect(() => {
     setUser(localStorage.getItem("user"));
+=======
+  const admin = async() => {
+    const adminData = await getAdmin();
+    setAdminList(adminData);
+  }
+
+  const supabase = useSupabaseClient();
+
+  const logout = () => {
+    supabase.auth.signOut();
+}
+
+  useEffect(() => {
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
     setEmail(localStorage.getItem("email"));
     setImage(localStorage.getItem("image"));
     admin();
@@ -50,6 +73,10 @@ const Navbar = () => {
   useEffect(() => {
     setMounted(true);
   }, []);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3ddb377 (Finish set data on google calendar, Now can only track user location)
   const renderThemeChanger = () => {
     if (!mounted) return null;
     const currentTheme = theme === "system" ? systemTheme : theme;
